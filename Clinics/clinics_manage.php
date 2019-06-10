@@ -20,9 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 use Gibbon\Tables\DataTable;
 use Gibbon\Services\Format;
 use Gibbon\Domain\School\SchoolYearGateway;
-use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
+use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 
-if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_manage.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php') == false) {
     // Access denied
     $page->addError(__('You do not have access to this action.'));
 } else {
@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
     $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
 
     $page->breadcrumbs
-        ->add(__m('Manage Blocks'));
+        ->add(__m('Manage Clinics'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
@@ -60,46 +60,51 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         echo '</div>';
     }
 
-    $clinicsBlocksGateway = $container->get(ClinicsBlocksGateway::class);
+    $clinicsGateway = $container->get(ClinicsGateway::class);
 
     // QUERY
-    $criteria = $clinicsBlocksGateway->newQueryCriteria()
-        ->sortBy(['clinicsBlock.sequenceNumber'])
+    $criteria = $clinicsGateway->newQueryCriteria()
+        ->sortBy(['sequenceNumber','clinicsClinic.name'])
         ->fromPOST();
 
-    $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $gibbonSchoolYearID);
+    $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbonSchoolYearID);
 
     // DATA TABLE
-    $table = DataTable::createPaginated('blocks', $criteria);
+    $table = DataTable::createPaginated('clinics', $criteria);
 
     $table->addHeaderAction('add', __('Add'))
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
-        ->setURL('/modules/Clinics/clinicsBlocks_manage_add.php')
+        ->setURL('/modules/Clinics/clinics_manage_add.php')
         ->displayLabel();
 
-    $table->addColumn('sequenceNumber', __('Sequence Number'))
-        ->sortable(['clinicsBlock.sequenceNumber']);
+    $table->modifyRows(function ($clinic, $row) {
+        if ($clinic['active'] == 'N') $row->addClass('error');
+        return $row;
+    });
+
+    $table->addColumn('blockName', __('Block'))
+        ->sortable(['sequenceNumber', 'clinicsClinic.name']);
 
     $table->addColumn('name', __('Name'))
-        ->sortable(['clinicsBlock.name']);
+        ->sortable(['sequenceNumber','clinicsClinic.name']);
 
-    $table->addColumn('dates', __('Dates'))
-        ->format(function ($block) {
-            return Format::dateRange($block['firstDay'], $block['lastDay']);
-        })
-        ->sortable(['firstDay']);;
+    $table->addColumn('department', __('Department'))
+        ->sortable(['department']);
+
+    $table->addColumn('space', __('Facility'))
+        ->sortable(['space']);
 
     // ACTIONS
     $table->addActionColumn()
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
-        ->addParam('clinicsBlockID')
-        ->format(function ($block, $actions) {
+        ->addParam('clinicsClinicID')
+        ->format(function ($clinic, $actions) {
             $actions->addAction('edit', __('Edit'))
-                    ->setURL('/modules/Clinics/clinicsBlocks_manage_edit.php');
+                    ->setURL('/modules/Clinics/clinics_manage_edit.php');
 
             $actions->addAction('delete', __('Delete'))
-                    ->setURL('/modules/Clinics/clinicsBlocks_manage_delete.php');
+                    ->setURL('/modules/Clinics/clinics_manage_delete.php');
         });
 
-    echo $table->render($blocks);
+    echo $table->render($clinics);
 }

@@ -3,8 +3,10 @@ CHANGELOG
 
 v1.0.00
 -------
-Initial feature set:
+Initial feature set (complete):
     - Define clinic blocks
+
+Initial feature set (in progress/pending):
     - Manage clinics
     - Identify student needs
     - Assign students to clinics

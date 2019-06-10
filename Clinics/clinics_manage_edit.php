@@ -20,9 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 use Gibbon\Forms\Form;
 use Gibbon\Forms\DatabaseFormFactory;
 use Gibbon\Domain\School\SchoolYearGateway;
-use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
+use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 
-if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_manage_edit.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edit.php') == false) {
     // Access denied
     $page->addError(__('You do not have access to this action.'));
 } else {
@@ -31,54 +31,74 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
     $schoolYearGateway = $container->get(SchoolYearGateway::class);
     $schoolYear = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
     $yearName = $schoolYear['name'];
-    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
+    $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
 
     $page->breadcrumbs
-        ->add(__m('Manage Blocks'), 'clinicsBlocks_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
-        ->add(__m('Edit Block'));
+        ->add(__m('Manage Clinics'), 'clinics_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
+        ->add(__m('Edit Clinic'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
     }
 
-    if (empty($clinicsBlockID)) {
+    if (empty($clinicsClinicID)) {
         $page->addError(__('You have not specified one or more required parameters.'));
         return;
     }
 
-    $values = $container->get(ClinicsBlocksGateway::class)->getByID($clinicsBlockID);
+    $values = $container->get(ClinicsGateway::class)->getByID($clinicsClinicID);
 
     if (empty($values)) {
         $page->addError(__('The specified record cannot be found.'));
         return;
     }
 
-    $form = Form::create('block', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/clinicsBlocks_manage_editProcess.php');
+    $form = Form::create('clinic', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/clinics_manage_editProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
     $form->addHiddenValue('address', $_SESSION[$guid]['address']);
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
-    $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
+    $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
 
     $row = $form->addRow();
         $row->addLabel('yearName', __('School Year'));
         $row->addTextField('yearName')->readonly()->setValue($yearName)->required();
 
+    $data = array('gibbonSchoolYearID' => $gibbonSchoolYearID);
+    $sql = "SELECT clinicsBlockID as value, name FROM clinicsBlock WHERE gibbonSchoolYearID=:gibbonSchoolYearID ORDER BY sequenceNumber";
     $row = $form->addRow();
-        $row->addLabel('name', __('Name'))->description(__('Must be unique within school year.'));
+        $row->addLabel('clinicsBlockID', __('Block'));
+        $row->addSelect('clinicsBlockID')->fromQuery($pdo, $sql, $data)->placeholder()->required();
+
+    $row = $form->addRow();
+        $row->addLabel('name', __('Name'));
         $row->addTextField('name')->required()->maxLength(20);
 
     $row = $form->addRow();
-        $row->addLabel('sequenceNumber', __('Sequence Number'))->description(__('Must be unique within school year. Controls chronological ordering.'));
-        $row->addSequenceNumber('sequenceNumber', 'clinicsBlock', $values['sequenceNumber'])->required()->maxLength(3);
+        $row->addLabel('description', __('Description'));
+        $row->addTextArea('description')->setRows(4);
+
+    $sql = "SELECT gibbonDepartmentID as value, name FROM gibbonDepartment WHERE type='Learning Area' ORDER BY name";
+    $row = $form->addRow();
+        $row->addLabel('gibbonDepartmentID', __('Learning Area'));
+        $row->addSelect('gibbonDepartmentID')->fromQuery($pdo, $sql)->placeholder();
 
     $row = $form->addRow();
-        $row->addLabel('firstDay', __('First Day'))->description($_SESSION[$guid]['i18n']['dateFormat'])->prepend(__('Format:'));
-        $row->addDate('firstDay')->required();
+        $row->addLabel('gibbonYearGroupIDList', __('Year Groups'));
+        $row->addCheckboxYearGroup('gibbonYearGroupIDList')->addCheckAllNone()->loadFromCSV($values);
 
     $row = $form->addRow();
-        $row->addLabel('lastDay', __('Last Day'))->description($_SESSION[$guid]['i18n']['dateFormat'])->prepend(__('Format:'));
-        $row->addDate('lastDay')->required();
+        $row->addLabel('active', __('Active'));
+		$row->addYesNo('active')->required();
+
+    $row = $form->addRow();
+        $row->addLabel('maxParticipants', __('Max Participants'));
+		$row->addNumber('maxParticipants')->required()->maxLength(3)->setValue('0');
+
+    $sql = "SELECT gibbonSpaceID as value, name FROM gibbonSpace ORDER BY name";
+    $row = $form->addRow();
+        $row->addLabel('gibbonSpaceID', __('Facility'));
+        $row->addSelect('gibbonSpaceID')->fromQuery($pdo, $sql)->placeholder();
 
     $row = $form->addRow();
         $row->addFooter();

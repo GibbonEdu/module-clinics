@@ -28,6 +28,20 @@ $author = "Ross Parker";
 $url = "http://rossparker.org";
 
 // Module tables
+$moduleTables[] = "CREATE TABLE `clinicsClinic` (
+    `clinicsClinicID` int(7) unsigned zerofill NOT NULL AUTO_INCREMENT,
+    `gibbonSchoolYearID` int(3) unsigned zerofill NOT NULL,
+    `clinicsBlockID` int(5) unsigned zerofill NOT NULL,
+    `name` varchar(20) NOT NULL,
+    `description` text NOT NULL,
+    `gibbonDepartmentID` int(4) unsigned zerofill NULL DEFAULT NULL,
+    `gibbonYearGroupIDList` varchar(255),
+    `active` enum('Y','N') DEFAULT 'Y',
+    `maxParticipants` int(3) NOT NULL,
+    `gibbonSpaceID` int(10) unsigned zerofill NULL DEFAULT NULL,
+  PRIMARY KEY (`clinicsClinicID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
 $moduleTables[] = "CREATE TABLE `clinicsBlock` (
   `clinicsBlockID` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `gibbonSchoolYearID` int(3) unsigned zerofill NOT NULL,
@@ -39,15 +53,33 @@ $moduleTables[] = "CREATE TABLE `clinicsBlock` (
   UNIQUE KEY `sequenceNumber` (`sequenceNumber`,`gibbonSchoolYearID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
-
-
 // Action rows
+$actionRows[] = [
+    'name'                      => 'Manage Clinics',
+    'precedence'                => '0',
+    'category'                  => 'Admin',
+    'description'               => 'Manage the clinics that are available in a school year.',
+    'URLList'                   => 'clinics_manage.php,clinics_manage_add.php,clinics_manage_edit.php,clinics_manage_delete.php',
+    'entryURL'                  => 'clinics_manage.php',
+    'entrySidebar'              => 'Y',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
 $actionRows[] = [
     'name'                      => 'Manage Blocks',
     'precedence'                => '0',
     'category'                  => 'Admin',
     'description'               => 'Manage the blocks that are used to structure clinics.',
-    'URLList'                   => 'clinicsBlocks_manage_members_manage.php,clinicsBlocks_manage_add.php,clinicsBlocks_manage_edit.php,clinicsBlocks_manage_delete.php',
+    'URLList'                   => 'clinicsBlocks_manage.php,clinicsBlocks_manage_add.php,clinicsBlocks_manage_edit.php,clinicsBlocks_manage_delete.php',
     'entryURL'                  => 'clinicsBlocks_manage.php',
     'entrySidebar'              => 'Y',
     'menuShow'                  => 'Y',
