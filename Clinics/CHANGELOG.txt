@@ -1,0 +1,11 @@
+CHANGELOG
+=========
+
+v1.0.00
+-------
+Initial feature set:
+    - Define clinic blocks
+    - Manage clinics
+    - Identify student needs
+    - Assign students to clinics
+    - Student sign-up
