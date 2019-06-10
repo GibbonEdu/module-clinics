@@ -53,6 +53,16 @@ $moduleTables[] = "CREATE TABLE `clinicsBlock` (
   UNIQUE KEY `sequenceNumber` (`sequenceNumber`,`gibbonSchoolYearID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+$moduleTables[] = "CREATE TABLE `clinicsPriority` (
+  `clinicsPriorityID` int(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `gibbonSchoolYearID` int(3) unsigned zerofill NOT NULL,
+  `gibbonDepartmentID` int(4) unsigned zerofill NOT NULL,
+  `gibbonPersonID` int(10) unsigned zerofill NOT NULL,
+  `priority` enum('1','2','3') NULL DEFAULT NULL,
+  PRIMARY KEY (`clinicsPriorityID`),
+  UNIQUE KEY `gibbonPersonID` (`gibbonPersonID`,`gibbonSchoolYearID`,`gibbonDepartmentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
 // Action rows
 $actionRows[] = [
     'name'                      => 'Manage Clinics',
@@ -84,6 +94,46 @@ $actionRows[] = [
     'entrySidebar'              => 'Y',
     'menuShow'                  => 'Y',
     'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Identify Priorities_all',
+    'precedence'                => '1',
+    'category'                  => 'Students',
+    'description'               => 'Identify, across departments, which students would benefit from support.',
+    'URLList'                   => 'identify.php',
+    'entryURL'                  => 'identify.php',
+    'entrySidebar'              => 'N',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Identify Priorities_department',
+    'precedence'                => '0',
+    'category'                  => 'Students',
+    'description'               => 'Identify, in departments which the user is a Coordinator, which students would benefit from support.',
+    'URLList'                   => 'identify.php',
+    'entryURL'                  => 'identify.php',
+    'entrySidebar'              => 'N',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'N',
     'defaultPermissionTeacher'  => 'N',
     'defaultPermissionStudent'  => 'N',
     'defaultPermissionParent'   => 'N',
