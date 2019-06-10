@@ -5,9 +5,9 @@ v1.0.00
 -------
 Initial feature set (complete):
     - Define clinic blocks
-
-Initial feature set (in progress/pending):
     - Manage clinics
+    
+Initial feature set (in progress/pending):
     - Identify student needs
     - Assign students to clinics
     - Student sign-up
