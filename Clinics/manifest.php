@@ -32,7 +32,7 @@ $moduleTables[] = "CREATE TABLE `clinicsClinic` (
     `clinicsClinicID` int(7) unsigned zerofill NOT NULL AUTO_INCREMENT,
     `gibbonSchoolYearID` int(3) unsigned zerofill NOT NULL,
     `clinicsBlockID` int(5) unsigned zerofill NOT NULL,
-    `name` varchar(20) NOT NULL,
+    `name` varchar(40) NOT NULL,
     `description` text NOT NULL,
     `gibbonDepartmentID` int(4) unsigned zerofill NULL DEFAULT NULL,
     `gibbonYearGroupIDList` varchar(255),
@@ -61,6 +61,15 @@ $moduleTables[] = "CREATE TABLE `clinicsPriority` (
   `priority` enum('1','2','3') NULL DEFAULT NULL,
   PRIMARY KEY (`clinicsPriorityID`),
   UNIQUE KEY `gibbonPersonID` (`gibbonPersonID`,`gibbonSchoolYearID`,`gibbonDepartmentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+$moduleTables[] = "CREATE TABLE `clinicsClinicStudent` (
+    `clinicsClinicStudentID` int(9) unsigned zerofill NOT NULL AUTO_INCREMENT,
+    `clinicsBlockID` int(5) unsigned zerofill NOT NULL,
+    `gibbonPersonID` int(10) unsigned zerofill NOT NULL,
+    `clinicsClinicID` int(7) unsigned zerofill NULL DEFAULT NULL,
+    `status` enum('Assigned','Accepted','Waiting List','Not Accepted') NULL DEFAULT NULL,
+  PRIMARY KEY (`clinicsClinicStudentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Action rows
@@ -154,6 +163,26 @@ $actionRows[] = [
     'entrySidebar'              => 'N',
     'menuShow'                  => 'Y',
     'defaultPermissionAdmin'    => 'N',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Assign Clinics',
+    'precedence'                => '0',
+    'category'                  => 'Individual Needs',
+    'description'               => 'Assign students to clinics, based on identified needs.',
+    'URLList'                   => 'assign.php',
+    'entryURL'                  => 'assign.php',
+    'entrySidebar'              => 'N',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
     'defaultPermissionTeacher'  => 'N',
     'defaultPermissionStudent'  => 'N',
     'defaultPermissionParent'   => 'N',

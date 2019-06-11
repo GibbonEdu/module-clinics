@@ -35,7 +35,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
         echo '</div>';
     } else {
         //Proceed!
-        $page->breadcrumbs->add(__('Identify Priorities  '));
+        $page->breadcrumbs->add(__('Identify Priorities'));
 
         if (isset($_GET['return'])) {
             returnProcess($guid, $_GET['return'], null);
@@ -174,7 +174,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
 
                 $priorityListing = array(
                     '1' => __('Low'),
-                    '2' => __('Medium'),
+                    '2' => __('Mid'),
                     '3' => __('High')
                 );
 

@@ -23,12 +23,12 @@ use Gibbon\Domain\Traits\TableAware;
 use Gibbon\Domain\QueryCriteria;
 use Gibbon\Domain\QueryableGateway;
 
-class ClinicsGateway extends QueryableGateway
+class ClinicsStudentsGateway extends QueryableGateway
 {
     use TableAware;
 
-    private static $tableName = 'clinicsClinic';
-    private static $primaryKey = 'clinicsClinicID';
+    private static $tableName = 'clinicsClinicStudent';
+    private static $primaryKey = 'clinicsClinicStudentID';
     private static $searchableColumns = [''];
 
     /**
@@ -37,22 +37,20 @@ class ClinicsGateway extends QueryableGateway
      * @param String $gibbonYearGroupID //Converts int to string for database query
      * @return DataSet
      */
-    public function queryClinicsBySchoolYear(QueryCriteria $criteria, Int $gibbonSchoolYearID, String $gibbonYearGroupID = null)
+    public function queryStudentEnrolmentBySchoolYear(QueryCriteria $criteria, Int $gibbonSchoolYearID, String $gibbonYearGroupID = null)
     {
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicID', 'clinicsBlock.clinicsBlockID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name AS blockName', 'gibbonSchoolYear.name AS schoolYear', 'gibbonDepartment.name AS department', 'clinicsClinic.name', 'description', 'active', 'gibbonSpace.name AS space'])
-            ->innerJoin('gibbonSchoolYear', 'clinicsClinic.gibbonSchoolYearID=gibbonSchoolYear.gibbonSchoolYearID')
-            ->innerJoin('clinicsBlock', 'clinicsClinic.clinicsBlockID=clinicsBlock.clinicsBlockID')
-            ->leftJoin('gibbonDepartment', 'clinicsClinic.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID')
-            ->leftJoin('gibbonSpace', 'clinicsClinic.gibbonSpaceID=gibbonSpace.gibbonSpaceID')
-            ->where('clinicsClinic.gibbonSchoolYearID=:gibbonSchoolYearID')
+            ->cols(['clinicsClinicStudentID', 'clinicsClinicStudent.clinicsBlockID', 'gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'status'])
+            ->innerJoin('clinicsBlock', 'clinicsClinicStudent.clinicsBlockID=clinicsBlock.clinicsBlockID')
+            ->innerJoin('clinicsClinic', 'clinicsClinicStudent.clinicsClinicID=clinicsClinic.clinicsClinicID')
+            ->where('clinicsBlock.gibbonSchoolYearID=:gibbonSchoolYearID')
             ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID);
 
         if (!is_null($gibbonYearGroupID)) {
             $query
-                ->where('FIND_IN_SET(:gibbonYearGroupID, gibbonYearGroupIDList)')
+                ->where('FIND_IN_SET(:gibbonYearGroupID, clinicsClinic.gibbonYearGroupIDList)')
                 ->bindValue('gibbonYearGroupID', $gibbonYearGroupID);
         }
 
