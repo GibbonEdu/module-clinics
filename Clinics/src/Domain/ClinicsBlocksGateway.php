@@ -62,4 +62,26 @@ class ClinicsBlocksGateway extends QueryableGateway
         $sql = "SELECT clinicsBlockID FROM clinicsBlock WHERE gibbonSchoolYearID=:gibbonSchoolYearID AND (sequenceNumber=:sequenceNumber OR name=:name)";
         return ($pdo->select($sql, $data)->rowCount() == 0 ) ? true : false ;
     }
+
+    /**
+     * @param QueryCriteria $criteria
+     * @param Int $gibbonPersonID
+     * @param Int $gibbonSchoolYearID
+     * @return DataSet
+     */
+    public function queryBlockEnrolmentByStudent(QueryCriteria $criteria, Int $gibbonPersonID, Int $gibbonSchoolYearID)
+    {
+        $query = $this
+            ->newQuery()
+            ->from($this->getTableName())
+            ->cols(['clinicsBlock.clinicsBlockID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name', 'clinicsBlock.firstDay', 'clinicsBlock.lastDay', 'clinicsClinic.name AS clinicName', 'clinicsClinicStudentID', 'gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'status', 'gibbonSpace.name AS location'])
+            ->leftJoin('clinicsClinicStudent', 'clinicsClinicStudent.clinicsBlockID=clinicsBlock.clinicsBlockID AND clinicsClinicStudent.gibbonPersonID=:gibbonPersonID')
+            ->leftJoin('clinicsClinic', 'clinicsClinicStudent.clinicsClinicID=clinicsClinic.clinicsClinicID')
+            ->leftJoin('gibbonSpace', 'clinicsClinic.gibbonSpaceID=gibbonSpace.gibbonSpaceID')
+            ->where('clinicsBlock.gibbonSchoolYearID=:gibbonSchoolYearID')
+            ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID)
+            ->bindValue('gibbonPersonID', $gibbonPersonID);
+
+        return $this->runQuery($query, $criteria);
+    }
 }

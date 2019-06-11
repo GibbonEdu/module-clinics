@@ -46,50 +46,52 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
         $count = 0;
         $partialFail = false;
-        foreach ($gibbonPersonIDs as $gibbonPersonID) {
-            $innerFail = false ;
-            try {
-                $dataStudent = array('clinicsBlockID' => $block['clinicsBlockID'], 'gibbonPersonID' => $gibbonPersonID);
-                $sqlStudent = 'SELECT *
-                    FROM clinicsClinicStudent
-                    WHERE clinicsBlockID=:clinicsBlockID
-                        AND gibbonPersonID=:gibbonPersonID';
-                $resultStudent = $connection2->prepare($sqlStudent);
-                $resultStudent->execute($dataStudent);
-            } catch (PDOException $e) {
-                $innerFail = $partialFail = true;
-            }
+        if (is_array($gibbonPersonIDs)) {
+            foreach ($gibbonPersonIDs as $gibbonPersonID) {
+                $innerFail = false ;
+                try {
+                    $dataStudent = array('clinicsBlockID' => $block['clinicsBlockID'], 'gibbonPersonID' => $gibbonPersonID);
+                    $sqlStudent = 'SELECT *
+                        FROM clinicsClinicStudent
+                        WHERE clinicsBlockID=:clinicsBlockID
+                            AND gibbonPersonID=:gibbonPersonID';
+                    $resultStudent = $connection2->prepare($sqlStudent);
+                    $resultStudent->execute($dataStudent);
+                } catch (PDOException $e) {
+                    $innerFail = $partialFail = true;
+                }
 
-            if (!$innerFail) {
-                $clinicsClinicID = ($clinics[$count] != '') ? $clinics[$count] : NULL ;
-                $status = (!is_null($clinicsClinicID)) ? 'Assigned' : NULL;
+                if (!$innerFail) {
+                    $clinicsClinicID = ($clinics[$count] != '') ? $clinics[$count] : NULL ;
+                    $status = (!is_null($clinicsClinicID)) ? 'Assigned' : NULL;
 
-                if ($resultStudent->rowCount() == 1) { //Exists, so update
-                    $rowStudent = $resultStudent->fetch();
-                    try {
-                        $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsClinicStudentID' => $rowStudent['clinicsClinicStudentID']);
-                        $sql = 'UPDATE clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status WHERE clinicsClinicStudentID=:clinicsClinicStudentID';
-                        $result = $connection2->prepare($sql);
-                        $result->execute($data);
-                    } catch (PDOException $e) {
+                    if ($resultStudent->rowCount() == 1) { //Exists, so update
+                        $rowStudent = $resultStudent->fetch();
+                        try {
+                            $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsClinicStudentID' => $rowStudent['clinicsClinicStudentID']);
+                            $sql = 'UPDATE clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status WHERE clinicsClinicStudentID=:clinicsClinicStudentID';
+                            $result = $connection2->prepare($sql);
+                            $result->execute($data);
+                        } catch (PDOException $e) {
+                            $partialFail = true;
+                        }
+                    }
+                    else if ($resultStudent->rowCount() == 0) { //Does not exist, so insert
+                        try {
+                            $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsBlockID' => $block['clinicsBlockID'], 'gibbonPersonID' => $gibbonPersonID);
+                            $sql = 'INSERT INTO  clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status, clinicsBlockID=:clinicsBlockID, gibbonPersonID=:gibbonPersonID';
+                            $result = $connection2->prepare($sql);
+                            $result->execute($data);
+                        } catch (PDOException $e) {
+                            $partialFail = true;
+                        }
+                    }
+                    else {
                         $partialFail = true;
                     }
                 }
-                else if ($resultStudent->rowCount() == 0) { //Does not exist, so insert
-                    try {
-                        $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsBlockID' => $block['clinicsBlockID'], 'gibbonPersonID' => $gibbonPersonID);
-                        $sql = 'INSERT INTO  clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status, clinicsBlockID=:clinicsBlockID, gibbonPersonID=:gibbonPersonID';
-                        $result = $connection2->prepare($sql);
-                        $result->execute($data);
-                    } catch (PDOException $e) {
-                        $partialFail = true;
-                    }
-                }
-                else {
-                    $partialFail = true;
-                }
+                $count++;
             }
-            $count++;
         }
     }
 

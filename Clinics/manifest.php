@@ -68,9 +68,13 @@ $moduleTables[] = "CREATE TABLE `clinicsClinicStudent` (
     `clinicsBlockID` int(5) unsigned zerofill NOT NULL,
     `gibbonPersonID` int(10) unsigned zerofill NOT NULL,
     `clinicsClinicID` int(7) unsigned zerofill NULL DEFAULT NULL,
-    `status` enum('Assigned','Accepted','Waiting List','Not Accepted') NULL DEFAULT NULL,
+    `status` enum('Assigned','Enroled') NULL DEFAULT NULL,
   PRIMARY KEY (`clinicsClinicStudentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+//Settings
+$gibbonSetting[] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Clinics', 'signupActive', 'Signup Active', 'Should students be able to sign up.', 'Y');";
+
 
 // Action rows
 $actionRows[] = [
@@ -181,6 +185,46 @@ $actionRows[] = [
     'URLList'                   => 'assign.php',
     'entryURL'                  => 'assign.php',
     'entrySidebar'              => 'N',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Enrol',
+    'precedence'                => '0',
+    'category'                  => 'Clinics',
+    'description'               => 'Allows students to enrol for clinics.',
+    'URLList'                   => 'enrol.php,enrol_add.php',
+    'entryURL'                  => 'enrol.php',
+    'entrySidebar'              => 'Y',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'N',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'Y',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'N',
+    'categoryPermissionStudent' => 'Y',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Manage Settings',
+    'precedence'                => '0',
+    'category'                  => 'Admin',
+    'description'               => 'Control settings for the Clinics module.',
+    'URLList'                   => 'settings.php',
+    'entryURL'                  => 'settings.php',
+    'entrySidebar'              => 'Y',
     'menuShow'                  => 'Y',
     'defaultPermissionAdmin'    => 'Y',
     'defaultPermissionTeacher'  => 'N',

@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 use Gibbon\Tables\DataTable;
 use Gibbon\Services\Format;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
+use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
 if (isModuleAccessible($guid, $connection2) == false) {
     // Access denied
@@ -37,7 +38,6 @@ if (isModuleAccessible($guid, $connection2) == false) {
 
     $clinicsGateway = $container->get(ClinicsGateway::class);
 
-    // QUERY
     $criteria = $clinicsGateway->newQueryCriteria()
         ->sortBy(['sequenceNumber','clinicsClinic.name'])
         ->fromPOST();
@@ -65,8 +65,20 @@ if (isModuleAccessible($guid, $connection2) == false) {
     $table->addColumn('department', __('Department'))
         ->sortable(['department']);
 
+    $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
+
+    $criteria = $clinicsStudentsGateway->newQueryCriteria()
+        ->fromPOST();
+
+    $table->addColumn('enrolment', __('Enrolment'))
+        ->sortable(['enrolment'])
+        ->format(function ($clinic) use ($clinicsStudentsGateway, $criteria) {
+            $enrolment = $clinicsStudentsGateway->queryStudentEnrolmentByClinic($criteria, $clinic['clinicsClinicID']);
+            return $enrolment->getResultCount()." / ".$clinic['maxParticipants'];
+        });
+
     $table->addColumn('space', __('Location'))
-        ->sortable(['space']);
+            ->sortable(['space']);
 
     echo $table->render($clinics);
 }

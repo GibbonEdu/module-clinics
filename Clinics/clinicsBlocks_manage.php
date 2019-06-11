@@ -60,16 +60,16 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         echo '</div>';
     }
 
+    //Query blocks
     $clinicsBlocksGateway = $container->get(ClinicsBlocksGateway::class);
 
-    // QUERY
     $criteria = $clinicsBlocksGateway->newQueryCriteria()
         ->sortBy(['clinicsBlock.sequenceNumber'])
         ->fromPOST();
 
     $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $gibbonSchoolYearID);
 
-    // DATA TABLE
+    //Render table
     $table = DataTable::createPaginated('blocks', $criteria);
 
     $table->addHeaderAction('add', __('Add'))

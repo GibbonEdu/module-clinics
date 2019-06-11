@@ -112,10 +112,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
             $criteria = $clinicsStudentsGateway->newQueryCriteria()
                 ->fromPOST();
 
-            $studentEnrolments = $clinicsStudentsGateway->queryStudentEnrolmentBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'));
+            $studentEnrolments = $clinicsStudentsGateway->queryStudentEnrolmentBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 
             foreach ($studentEnrolments as $studentEnrolment) {
-                $studentEnrolmentsArray[$studentEnrolment['gibbonPersonID']][$studentEnrolment['clinicsBlockID']] = $studentEnrolment['clinicsClinicID'];
+                $studentEnrolmentsArray[$studentEnrolment['gibbonPersonID']][$studentEnrolment['clinicsBlockID']]['id'] = $studentEnrolment['clinicsClinicID'];
+                $studentEnrolmentsArray[$studentEnrolment['gibbonPersonID']][$studentEnrolment['clinicsBlockID']]['status'] = $studentEnrolment['status'];
+                $studentEnrolmentsArray[$studentEnrolment['gibbonPersonID']][$studentEnrolment['clinicsBlockID']]['name'] = $studentEnrolment['name'];
             }
 
             //Fetch priorities
@@ -216,18 +218,24 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                         $row->addContent($priorityListing[$priority] ?? 'N/A')->setClass("$color text-center");
                     }
 
+
                     //Add student entry for each block
                     $blockCount = 0;
                     foreach ($blocks as $block) {
                         if (!empty($clinicsArray[$block['clinicsBlockID']])) {
                             $selected = (!empty($studentEnrolmentsArray[$rowStudents['gibbonPersonID']][$block['clinicsBlockID']])) ? $studentEnrolmentsArray[$rowStudents['gibbonPersonID']][$block['clinicsBlockID']] : NULL;
-                            $row
-                                ->addSelect('clinics'.$block['clinicsBlockID'].'[]')
-                                ->fromArray($clinicsArray[$block['clinicsBlockID']])
-                                ->selected($selected)
-                                ->placeholder()
-                                ->setClass('float-none w-24');
-                            $form->addHiddenValue('gibbonPersonIDs'.$block['clinicsBlockID'].'[]', $rowStudents['gibbonPersonID']);
+                            if ($selected['status'] == 'Enroled') {
+                                $row->addContent($selected['name'])->setClass('float-none w-24 text-center');
+                            }
+                            else {
+                                $row
+                                    ->addSelect('clinics'.$block['clinicsBlockID'].'[]')
+                                    ->fromArray($clinicsArray[$block['clinicsBlockID']])
+                                    ->selected($selected['id'])
+                                    ->placeholder()
+                                    ->setClass('float-none w-24');
+                                $form->addHiddenValue('gibbonPersonIDs'.$block['clinicsBlockID'].'[]', $rowStudents['gibbonPersonID']);
+                            }
                         }
                         else {
                             $row->addContent('')->setClass('float-none w-24');

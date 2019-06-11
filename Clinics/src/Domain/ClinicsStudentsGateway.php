@@ -42,7 +42,7 @@ class ClinicsStudentsGateway extends QueryableGateway
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicStudentID', 'clinicsClinicStudent.clinicsBlockID', 'gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'status'])
+            ->cols(['clinicsClinicStudentID', 'clinicsClinicStudent.clinicsBlockID', 'gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'status', 'clinicsClinic.name'])
             ->innerJoin('clinicsBlock', 'clinicsClinicStudent.clinicsBlockID=clinicsBlock.clinicsBlockID')
             ->innerJoin('clinicsClinic', 'clinicsClinicStudent.clinicsClinicID=clinicsClinic.clinicsClinicID')
             ->where('clinicsBlock.gibbonSchoolYearID=:gibbonSchoolYearID')
@@ -53,6 +53,18 @@ class ClinicsStudentsGateway extends QueryableGateway
                 ->where('FIND_IN_SET(:gibbonYearGroupID, clinicsClinic.gibbonYearGroupIDList)')
                 ->bindValue('gibbonYearGroupID', $gibbonYearGroupID);
         }
+
+        return $this->runQuery($query, $criteria);
+    }
+
+    public function queryStudentEnrolmentByClinic(QueryCriteria $criteria, Int $clinicsClinicID)
+    {
+        $query = $this
+            ->newQuery()
+            ->from($this->getTableName())
+            ->cols(['clinicsClinicStudentID', 'clinicsClinicID', 'gibbonPersonID', 'status'])
+            ->where('clinicsClinicID=:clinicsClinicID')
+            ->bindValue('clinicsClinicID', $clinicsClinicID);
 
         return $this->runQuery($query, $criteria);
     }
