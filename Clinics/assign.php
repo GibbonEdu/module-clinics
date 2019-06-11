@@ -87,13 +87,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
             //Fetch students
             try {
-                $dataStudents = array('gibbonYearGroupID' => $gibbonYearGroupID, 'today' => date('Y-m-d'));
+                $dataStudents = array('gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'), 'gibbonYearGroupID' => $gibbonYearGroupID, 'today' => date('Y-m-d'));
                 $sqlStudents = "SELECT gibbonPerson.gibbonPersonID, gibbonStudentEnrolmentID, gibbonStudentEnrolment.gibbonSchoolYearID, gibbonPerson.title, gibbonPerson.preferredName, gibbonPerson.surname
                     FROM gibbonPerson
                         INNER JOIN gibbonStudentEnrolment ON (gibbonPerson.gibbonPersonID=gibbonStudentEnrolment.gibbonPersonID)
                         INNER JOIN gibbonYearGroup ON (gibbonStudentEnrolment.gibbonYearGroupID=gibbonYearGroup.gibbonYearGroupID)
                     WHERE
                         gibbonStudentEnrolment.gibbonYearGroupID=:gibbonYearGroupID
+                        AND gibbonStudentEnrolment.gibbonSchoolYearID=:gibbonSchoolYearID
                         AND (gibbonPerson.dateStart IS NULL OR gibbonPerson.dateStart <= :today)
                         AND (gibbonPerson.dateEnd IS NULL OR gibbonPerson.dateEnd >= :today)
                         AND status='Full'
