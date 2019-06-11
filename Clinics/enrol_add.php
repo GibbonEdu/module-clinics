@@ -46,8 +46,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
             ->add(__m('Enrol'), 'enrol.php')
             ->add(__m('Add Clinic'));
 
-        $signupActive = getSettingByScope($connection2, 'Clinics', 'signupActive');
-        if ($signupActive != "Y") {
+        $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+        if ($enrolmentActive != "Y") {
             $page->addMessage(__m('Enrolment is not currently open.'));
         }
         else {

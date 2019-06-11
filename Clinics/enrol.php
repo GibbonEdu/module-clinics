@@ -32,8 +32,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == fal
     $page->breadcrumbs
         ->add(__m('Enrol'));
 
-    $signupActive = getSettingByScope($connection2, 'Clinics', 'signupActive');
-    if ($signupActive != "Y") {
+    $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+    if ($enrolmentActive != "Y") {
         $page->addMessage(__m('Enrolment is not currently open.'));
     }
     else {

@@ -33,7 +33,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/settings.php') == 
 
     $settingsToUpdate = [
         'Clinics' => [
-            'signupActive'
+            'enrolmentActive'
         ],
     ];
 

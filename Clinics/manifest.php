@@ -73,7 +73,7 @@ $moduleTables[] = "CREATE TABLE `clinicsClinicStudent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 //Settings
-$gibbonSetting[] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Clinics', 'signupActive', 'Signup Active', 'Should students be able to sign up.', 'Y');";
+$gibbonSetting[] = "INSERT INTO `gibbonSetting` (`gibbonSettingID` ,`scope` ,`name` ,`nameDisplay` ,`description` ,`value`) VALUES (NULL , 'Clinics', 'enrolmentActive', 'Enrolment Active', 'Should students be able to sign up.', 'Y');";
 
 
 // Action rows

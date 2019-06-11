@@ -39,7 +39,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/settings.php') == 
 
     $form->addHiddenValue('address', $gibbon->session->get('address'));
 
-    $setting = $settingGateway->getSettingByScope('Clinics', 'signupActive', true);
+    $setting = $settingGateway->getSettingByScope('Clinics', 'enrolmentActive', true);
     $row = $form->addRow();
         $row->addLabel($setting['name'], __m($setting['nameDisplay']))->description(__m($setting['description']));
         $row->addYesNo($setting['name'])->required()->selected($setting['value']);

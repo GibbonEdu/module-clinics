@@ -29,8 +29,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
     header("Location: {$URL}");
     exit;
 } else {
-    $signupActive = getSettingByScope($connection2, 'Clinics', 'signupActive');
-    if ($signupActive != "Y") {
+    $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+    if ($enrolmentActive != "Y") {
         $URL .= '&return=error0';
         header("Location: {$URL}");
         exit;
