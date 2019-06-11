@@ -53,10 +53,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
         return;
     }
 
-    $form = Form::create('clinic', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/clinics_manage_editProcess.php');
+    $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinics_manage_editProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+    $form->addHiddenValue('address', $gibbon->session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
 
@@ -97,7 +97,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
 
     $sql = "SELECT gibbonSpaceID as value, name FROM gibbonSpace ORDER BY name";
     $row = $form->addRow();
-        $row->addLabel('gibbonSpaceID', __('Facility'));
+        $row->addLabel('gibbonSpaceID', __('Location'));
         $row->addSelect('gibbonSpaceID')->fromQuery($pdo, $sql)->placeholder();
 
     $row = $form->addRow();

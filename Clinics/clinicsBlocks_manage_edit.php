@@ -53,10 +53,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         return;
     }
 
-    $form = Form::create('block', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/clinicsBlocks_manage_editProcess.php');
+    $form = Form::create('block', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinicsBlocks_manage_editProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+    $form->addHiddenValue('address', $gibbon->session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
 
@@ -73,11 +73,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         $row->addSequenceNumber('sequenceNumber', 'clinicsBlock', $values['sequenceNumber'])->required()->maxLength(3);
 
     $row = $form->addRow();
-        $row->addLabel('firstDay', __('First Day'))->description($_SESSION[$guid]['i18n']['dateFormat'])->prepend(__('Format:'));
+        $row->addLabel('firstDay', __('First Day'))->description($gibbon->session->get("i18n")["dateFormat"])->prepend(__('Format:'));
         $row->addDate('firstDay')->required();
 
     $row = $form->addRow();
-        $row->addLabel('lastDay', __('Last Day'))->description($_SESSION[$guid]['i18n']['dateFormat'])->prepend(__('Format:'));
+        $row->addLabel('lastDay', __('Last Day'))->description($gibbon->session->get("i18n")["dateFormat"])->prepend(__('Format:'));
         $row->addDate('lastDay')->required();
 
     $row = $form->addRow();

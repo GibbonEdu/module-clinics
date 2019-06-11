@@ -41,7 +41,7 @@ class ClinicsGateway extends QueryableGateway
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name AS blockName', 'gibbonSchoolYear.name AS schoolYear', 'gibbonDepartment.name AS department', 'clinicsClinic.name', 'active', 'gibbonSpace.name AS space'])
+            ->cols(['clinicsClinicID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name AS blockName', 'gibbonSchoolYear.name AS schoolYear', 'gibbonDepartment.name AS department', 'clinicsClinic.name', 'description', 'active', 'gibbonSpace.name AS space'])
             ->innerJoin('gibbonSchoolYear', 'clinicsClinic.gibbonSchoolYearID=gibbonSchoolYear.gibbonSchoolYearID')
             ->innerJoin('clinicsBlock', 'clinicsClinic.clinicsBlockID=clinicsBlock.clinicsBlockID')
             ->leftJoin('gibbonDepartment', 'clinicsClinic.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID')

@@ -48,11 +48,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
         $gibbonYearGroupID = $_GET['gibbonYearGroupID'] ?? '';
         $gibbonDepartmentID = $_GET['gibbonDepartmentID'] ?? '';
 
-        $form = Form::create('filter', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+        $form = Form::create('filter', $gibbon->session->get('absoluteURL').'/index.php', 'get');
         $form->setFactory(DatabaseFormFactory::create($pdo));
         $form->setClass('noIntBorder fullWidth');
 
-        $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/identify.php');
+        $form->addHiddenValue('q', '/modules/'.$gibbon->session->get('module').'/identify.php');
 
         $row = $form->addRow();
             $row->addLabel('gibbonYearGroupID', __('Year Group'));
@@ -64,7 +64,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
             $sqlDepartments = "SELECT gibbonDepartmentID as value, name, nameShort FROM gibbonDepartment WHERE type='Learning Area' ORDER BY name";
         }
         else {
-            $dataDepartments = array('gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID']);
+            $dataDepartments = array('gibbonPersonID' => $gibbon->session->get('gibbonPersonID'));
             $sqlDepartments = "SELECT gibbonDepartment.gibbonDepartmentID as value, name, nameShort
                     FROM gibbonDepartment
                         JOIN gibbonDepartmentStaff ON (gibbonDepartmentStaff.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID)
@@ -98,7 +98,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
             $departmentalAccess = true;
             if ($highestAction != "Identify Priorities_all") {
                 try {
-                    $dataDepartments = array('gibbonPersonID' => $_SESSION[$guid]['gibbonPersonID'], 'gibbonDepartmentID' => $gibbonDepartmentID);
+                    $dataDepartments = array('gibbonPersonID' => $gibbon->session->get('gibbonPersonID'), 'gibbonDepartmentID' => $gibbonDepartmentID);
                     $sqlDepartments = "SELECT gibbonDepartment.gibbonDepartmentID as value, name, nameShort
                             FROM gibbonDepartment
                                 JOIN gibbonDepartmentStaff ON (gibbonDepartmentStaff.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID)
@@ -125,10 +125,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
             } else {
 
 
-                $form = Form::create('identify', $_SESSION[$guid]['absoluteURL'].'/modules/'.$_SESSION[$guid]['module'].'/identifyProcess.php');
+                $form = Form::create('identify', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/identifyProcess.php');
                 $form->setTitle('Priorities');
                 $form->setClass('w-full blank');
-                $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+                $form->addHiddenValue('address', $gibbon->session->get('address'));
                 $form->addHiddenValue('gibbonYearGroupID', $gibbonYearGroupID);
                 $form->addHiddenValue('gibbonDepartmentID', $gibbonDepartmentID);
 
@@ -156,7 +156,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
                 //Fetch priorities
                 $priorities = array() ;
                 try {
-                    $dataPriorities = array('gibbonYearGroupID' => $gibbonYearGroupID, 'gibbonSchoolYearID' => $_SESSION[$guid]['gibbonSchoolYearID']);
+                    $dataPriorities = array('gibbonYearGroupID' => $gibbonYearGroupID, 'gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'));
                     $sqlPriorities = 'SELECT *
                         FROM clinicsPriority
                             INNER JOIN gibbonStudentEnrolment ON (gibbonStudentEnrolment.gibbonPersonID=clinicsPriority.gibbonPersonID)

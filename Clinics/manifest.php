@@ -65,6 +65,26 @@ $moduleTables[] = "CREATE TABLE `clinicsPriority` (
 
 // Action rows
 $actionRows[] = [
+    'name'                      => 'View Clinics',
+    'precedence'                => '0',
+    'category'                  => 'Clinics',
+    'description'               => 'View the clinics that are available in the current school year.',
+    'URLList'                   => 'clinics.php',
+    'entryURL'                  => 'clinics.php',
+    'entrySidebar'              => 'Y',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'Y',
+    'defaultPermissionStudent'  => 'Y',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'Y',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'Y',
+    'categoryPermissionParent'  => 'Y',
+    'categoryPermissionOther'   => 'Y',
+];
+
+$actionRows[] = [
     'name'                      => 'Manage Clinics',
     'precedence'                => '0',
     'category'                  => 'Admin',
@@ -107,7 +127,7 @@ $actionRows[] = [
 $actionRows[] = [
     'name'                      => 'Identify Priorities_all',
     'precedence'                => '1',
-    'category'                  => 'Students',
+    'category'                  => 'Individual Needs',
     'description'               => 'Identify, across departments, which students would benefit from support.',
     'URLList'                   => 'identify.php',
     'entryURL'                  => 'identify.php',
@@ -127,7 +147,7 @@ $actionRows[] = [
 $actionRows[] = [
     'name'                      => 'Identify Priorities_department',
     'precedence'                => '0',
-    'category'                  => 'Students',
+    'category'                  => 'Individual Needs',
     'description'               => 'Identify, in departments which the user is a Coordinator, which students would benefit from support.',
     'URLList'                   => 'identify.php',
     'entryURL'                  => 'identify.php',

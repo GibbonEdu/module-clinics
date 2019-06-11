@@ -19,45 +19,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 use Gibbon\Tables\DataTable;
 use Gibbon\Services\Format;
-use Gibbon\Domain\School\SchoolYearGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 
-if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php') == false) {
+if (isModuleAccessible($guid, $connection2) == false) {
     // Access denied
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $gibbon->session->get('gibbonSchoolYearID');
 
     $page->breadcrumbs
-        ->add(__m('Manage Clinics'));
+        ->add(__m('View Clinics'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
-    }
-
-    // School Year Picker
-    if (!empty($gibbonSchoolYearID)) {
-        $schoolYearGateway = $container->get(SchoolYearGateway::class);
-        $yearName = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
-
-        echo '<h2>';
-        echo $yearName['name'];
-        echo '</h2>';
-
-        echo "<div class='linkTop'>";
-            if ($prevSchoolYear = $schoolYearGateway->getPreviousSchoolYearByID($gibbonSchoolYearID)) {
-                echo "<a href='".$gibbon->session->get('absoluteURL').'/index.php?q='.$_GET['q'].'&gibbonSchoolYearID='.$prevSchoolYear['gibbonSchoolYearID']."'>".__('Previous Year').'</a> ';
-            } else {
-                echo __('Previous Year').' ';
-            }
-			echo ' | ';
-			if ($nextSchoolYear = $schoolYearGateway->getNextSchoolYearByID($gibbonSchoolYearID)) {
-				echo "<a href='".$gibbon->session->get('absoluteURL').'/index.php?q='.$_GET['q'].'&gibbonSchoolYearID='.$nextSchoolYear['gibbonSchoolYearID']."'>".__('Next Year').'</a> ';
-			} else {
-				echo __('Next Year').' ';
-			}
-        echo '</div>';
     }
 
     $clinicsGateway = $container->get(ClinicsGateway::class);
@@ -72,10 +47,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
     // DATA TABLE
     $table = DataTable::createPaginated('clinics', $criteria);
 
-    $table->addHeaderAction('add', __('Add'))
-        ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
-        ->setURL('/modules/Clinics/clinics_manage_add.php')
-        ->displayLabel();
+    $table->setTitle(__m('Clinics'));
 
     $table->modifyRows(function ($clinic, $row) {
         if ($clinic['active'] == 'N') $row->addClass('error');
@@ -95,18 +67,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
 
     $table->addColumn('space', __('Location'))
         ->sortable(['space']);
-
-    // ACTIONS
-    $table->addActionColumn()
-        ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
-        ->addParam('clinicsClinicID')
-        ->format(function ($clinic, $actions) {
-            $actions->addAction('edit', __('Edit'))
-                    ->setURL('/modules/Clinics/clinics_manage_edit.php');
-
-            $actions->addAction('delete', __('Delete'))
-                    ->setURL('/modules/Clinics/clinics_manage_delete.php');
-        });
 
     echo $table->render($clinics);
 }
