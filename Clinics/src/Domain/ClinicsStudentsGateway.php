@@ -62,7 +62,8 @@ class ClinicsStudentsGateway extends QueryableGateway
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicStudentID', 'clinicsClinicID', 'gibbonPersonID', 'status'])
+            ->cols(['clinicsClinicStudentID', 'clinicsClinicID', 'clinicsClinicStudent.gibbonPersonID', 'clinicsClinicStudent.status', 'surname', 'preferredName'])
+            ->innerJoin('gibbonPerson','clinicsClinicStudent.gibbonPersonID=gibbonPerson.gibbonPersonID')
             ->where('clinicsClinicID=:clinicsClinicID')
             ->bindValue('clinicsClinicID', $clinicsClinicID);
 

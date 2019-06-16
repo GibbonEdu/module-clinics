@@ -100,9 +100,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
     $table->addActionColumn()
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
         ->addParam('clinicsClinicID')
-        ->format(function ($clinic, $actions) {
+        ->format(function ($clinic, $actions) use ($gibbon) {
             $actions->addAction('edit', __('Edit'))
                     ->setURL('/modules/Clinics/clinics_manage_edit.php');
+
+            $actions->addAction('enrolment', __('Enrolment'))
+                    ->setURL('/modules/Clinics/clinics_manage_enrolment.php')
+                    ->setIcon('attendance');
 
             $actions->addAction('delete', __('Delete'))
                     ->setURL('/modules/Clinics/clinics_manage_delete.php');

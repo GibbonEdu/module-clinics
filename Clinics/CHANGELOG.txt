@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+
+v1.1.00
+-------
+Enrolment editing
+
 v1.0.01
 -------
 Fixed student listing bug in Identify and Assign
@@ -12,4 +17,5 @@ Initial feature set (complete):
     - View clinics
     - Identify student priorities
     - Assign students to clinics
-    - Setting to open/close sign up
+    - Setting to open/close enrolment
+    - Student enrolment

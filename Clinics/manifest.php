@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.0.01";
+$version = "1.1.00";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
@@ -102,7 +102,7 @@ $actionRows[] = [
     'precedence'                => '0',
     'category'                  => 'Admin',
     'description'               => 'Manage the clinics that are available in a school year.',
-    'URLList'                   => 'clinics_manage.php,clinics_manage_add.php,clinics_manage_edit.php,clinics_manage_delete.php',
+    'URLList'                   => 'clinics_manage.php,clinics_manage_add.php,clinics_manage_edit.php, clinics_manage_edit_enrolment_add.php,clinics_manage_delete.php,clinics_manage_enrolment.php,clinics_manage_enrolment_add.php,clinics_manage_enrolment_edit.php,clinics_manage_enrolment_delete.php',
     'entryURL'                  => 'clinics_manage.php',
     'entrySidebar'              => 'Y',
     'menuShow'                  => 'Y',
