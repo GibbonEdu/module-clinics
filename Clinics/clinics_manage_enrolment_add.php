@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 use Gibbon\Forms\Form;
 use Gibbon\Forms\DatabaseFormFactory;
-use Gibbon\Module\Clinics\Domain\CommitteeRoleGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enrolment_add.php') == false) {

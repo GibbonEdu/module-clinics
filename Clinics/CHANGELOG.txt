@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.1.01
+-------
+Fixed bug causing only 25 Clinic assignments to show
+Fixed interface language issue
 
 v1.1.00
 -------

@@ -63,7 +63,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
     // DATA TABLE
     $table = DataTable::createPaginated('clinics', $criteria);
     $table->setTitle($clinic['name']);
-    $table->addMetaData('blankSlate', __m('There are currently no members in this committee.'));
+    $table->addMetaData('blankSlate', __m('There are currently no members in this clinic.'));
 
     $table->addHeaderAction('add', __('Add'))
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)

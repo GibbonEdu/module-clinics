@@ -111,7 +111,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
             $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
 
             $criteria = $clinicsStudentsGateway->newQueryCriteria()
-                ->fromPOST();
+                ->fromPOST()
+                ->pageSize(0);
 
             $studentEnrolments = $clinicsStudentsGateway->queryStudentEnrolmentBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 
