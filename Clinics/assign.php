@@ -146,7 +146,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
             $criteria = $clinicsBlocksGateway->newQueryCriteria()
                 ->sortBy(['clinicsBlock.sequenceNumber'])
-                ->fromPOST();
+                ->fromPOST()
+                ->pageSize(0);
 
             $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'));
 
@@ -157,7 +158,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
             $criteria = $clinicsGateway->newQueryCriteria()
                 ->sortBy(['sequenceNumber','clinicsClinic.name'])
-                ->fromPOST();
+                ->fromPOST()
+                ->pageSize(0);
 
             $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 

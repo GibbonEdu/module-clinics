@@ -40,7 +40,8 @@ if (isModuleAccessible($guid, $connection2) == false) {
 
     $criteria = $clinicsGateway->newQueryCriteria()
         ->sortBy(['sequenceNumber','clinicsClinic.name'])
-        ->fromPOST();
+        ->fromPOST()
+        ->pageSize(0);
 
     $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbonSchoolYearID);
 

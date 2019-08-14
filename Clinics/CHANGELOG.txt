@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v1.1.02
+-------
+Worked around View Clinics pagination issue
+Fixed Assign Clinics dropdown list issue
+
 v1.1.01
 -------
 Fixed bug causing only 25 Clinic assignments to show
