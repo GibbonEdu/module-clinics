@@ -1,5 +1,13 @@
 CHANGELOG
 =========
+v1.2.00
+-------
+Added student enrolment listing to View Clinics
+
+v1.1.03
+-------
+Fixed student enrolment bug
+
 v1.1.02
 -------
 Worked around View Clinics pagination issue

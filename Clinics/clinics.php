@@ -55,7 +55,30 @@ if (isModuleAccessible($guid, $connection2) == false) {
         return $row;
     });
 
-    $table->addExpandableColumn('description');
+    $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
+
+    $criteria = $clinicsStudentsGateway->newQueryCriteria()
+        ->fromPOST();
+
+    $table->addExpandableColumn('moreDetails')
+        ->format(function ($clinic) use ($clinicsStudentsGateway, $criteria) {
+            $output = '';
+            if ($clinic['description'] != '') {
+                $output .= "<b>".__m("Description")."</b><br/>";
+                $output .= $clinic['description']."<br/>";
+            }
+            $enrolment = $clinicsStudentsGateway->queryStudentEnrolmentByClinic($criteria, $clinic['clinicsClinicID']);
+            if ($enrolment->getResultCount() > 0) {
+                if ($clinic['description'] != '') {
+                    $output .= "<br/>";
+                }
+                $output .= "<b>".__m("Enrolment")."</b><br/>";
+                foreach ($enrolment AS $row) {
+                    $output .= Format::name('', $row['preferredName'], $row['surname'], 'Student', true, true)."<br/>";
+                }
+            }
+            return $output;
+        });
 
     $table->addColumn('blockName', __('Block'))
         ->sortable(['sequenceNumber', 'clinicsClinic.name']);
@@ -65,11 +88,6 @@ if (isModuleAccessible($guid, $connection2) == false) {
 
     $table->addColumn('department', __('Department'))
         ->sortable(['department']);
-
-    $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
-
-    $criteria = $clinicsStudentsGateway->newQueryCriteria()
-        ->fromPOST();
 
     $table->addColumn('enrolment', __('Enrolment'))
         ->sortable(['enrolment'])

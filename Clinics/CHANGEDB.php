@@ -30,3 +30,13 @@ $count++;
 $sql[$count][0] = "1.1.02";
 $sql[$count][1] = "";
 $count++;
+
+//v1.1.03
+$sql[$count][0] = "1.1.03";
+$sql[$count][1] = "";
+$count++;
+
+//v1.2.00
+$sql[$count][0] = "1.2.00";
+$sql[$count][1] = "";
+$count++;

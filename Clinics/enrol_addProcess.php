@@ -56,7 +56,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
 
         //Lock Tables
         try {
-            $sql = 'LOCK TABLES clinicsClinic WRITE, clinicsBlock WRITE, clinicsClinicStudent WRITE';
+            $sql = 'LOCK TABLES clinicsClinic WRITE, clinicsBlock WRITE, clinicsClinicStudent WRITE, gibbonPerson READ';
             $result = $connection2->query($sql);
         } catch (PDOException $e) {
             $URL .= '&return=error2';
