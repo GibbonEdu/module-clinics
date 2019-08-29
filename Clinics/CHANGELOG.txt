@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.2.01
+-------
+Fixed pagination in View Clinics
+
 v1.2.00
 -------
 Added student enrolment listing to View Clinics

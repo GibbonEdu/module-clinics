@@ -39,9 +39,8 @@ if (isModuleAccessible($guid, $connection2) == false) {
     $clinicsGateway = $container->get(ClinicsGateway::class);
 
     $criteria = $clinicsGateway->newQueryCriteria()
-        ->sortBy(['sequenceNumber','clinicsClinic.name'])
-        ->fromPOST()
-        ->pageSize(0);
+        ->sortBy(['clinicsBlock.sequenceNumber','clinicsClinic.name'])
+        ->fromPOST('clinics');
 
     $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbonSchoolYearID);
 
@@ -56,9 +55,7 @@ if (isModuleAccessible($guid, $connection2) == false) {
     });
 
     $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
-
-    $criteria = $clinicsStudentsGateway->newQueryCriteria()
-        ->fromPOST();
+    $criteria = $clinicsStudentsGateway->newQueryCriteria();
 
     $table->addExpandableColumn('moreDetails')
         ->format(function ($clinic) use ($clinicsStudentsGateway, $criteria) {
@@ -90,7 +87,7 @@ if (isModuleAccessible($guid, $connection2) == false) {
         ->sortable(['department']);
 
     $table->addColumn('enrolment', __('Enrolment'))
-        ->sortable(['enrolment'])
+        ->notSortable()
         ->format(function ($clinic) use ($clinicsStudentsGateway, $criteria) {
             $enrolment = $clinicsStudentsGateway->queryStudentEnrolmentByClinic($criteria, $clinic['clinicsClinicID']);
             return $enrolment->getResultCount()." / ".$clinic['maxParticipants'];
