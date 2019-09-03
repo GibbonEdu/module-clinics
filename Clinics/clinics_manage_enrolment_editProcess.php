@@ -55,6 +55,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         exit;
     }
 
+    //Get clinicBlockID from clinic
+    $data['clinicsBlockID'] = $clinicsGateway->getByID($clinicsClinicID)['clinicsBlockID'];
+
     // Update the record
     $updated = $clinicsStudentsGateway->update($clinicsClinicStudentID, $data);
 

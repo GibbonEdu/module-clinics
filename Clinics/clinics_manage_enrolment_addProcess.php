@@ -56,6 +56,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         exit;
     }
 
+    //Get clinicBlockID from clinic
+    $data['clinicsBlockID'] = $clinicsGateway->getByID($clinicsClinicID)['clinicsBlockID'];
+
     // Validate that this record is unique
     if (!$clinicsStudentsGateway->unique($data, ['gibbonPersonID', 'clinicsClinicID'])) {
         $URL .= '&return=error7';
