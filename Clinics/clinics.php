@@ -71,7 +71,11 @@ if (isModuleAccessible($guid, $connection2) == false) {
                 }
                 $output .= "<b>".__m("Enrolment")."</b><br/>";
                 foreach ($enrolment AS $row) {
-                    $output .= Format::name('', $row['preferredName'], $row['surname'], 'Student', true, true)."<br/>";
+                    $output .= Format::name('', $row['preferredName'], $row['surname'], 'Student', true, true);
+                    if ($row["status"] == "Assigned") {
+                        $output .= "<i> (".__m("Assigned")."</i>)";
+                    }
+                    $output .= "<br/>";
                 }
             }
             return $output;
