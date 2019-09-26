@@ -55,3 +55,12 @@ $count++;
 $sql[$count][0] = "1.2.03";
 $sql[$count][1] = "";
 $count++;
+
+
+//v1.3.00
+$sql[$count][0] = "1.3.00";
+$sql[$count][1] = "
+INSERT INTO `gibbonAction` (`gibbonModuleID`, `name`, `precedence`, `category`, `description`, `URLList`, `entryURL`, `defaultPermissionAdmin`, `defaultPermissionTeacher`, `defaultPermissionStudent`, `defaultPermissionParent`, `defaultPermissionSupport`, `categoryPermissionStaff`, `categoryPermissionStudent`, `categoryPermissionParent`, `categoryPermissionOther`) VALUES ((SELECT gibbonModuleID FROM gibbonModule WHERE name='Clinics'), 'Enrolment by Student', 0, 'Clinics', 'Manage clinic enrolment for individual students.', 'enrolmentByStudent.php,enrolmentByStudent_student.php,enrolmentByStudent_student_add.php,enrolmentByStudent_student_delete.php', 'enrolmentByStudent.php', 'Y', 'Y', 'N', 'N', 'N', 'Y', 'N', 'N', 'N');end
+INSERT INTO `gibbonPermission` (`gibbonRoleID` ,`gibbonActionID`) VALUES ('001', (SELECT gibbonActionID FROM gibbonAction JOIN gibbonModule ON (gibbonAction.gibbonModuleID=gibbonModule.gibbonModuleID) WHERE gibbonModule.name='Clinics' AND gibbonAction.name='Enrolment by Student'));end
+";
+$count++;

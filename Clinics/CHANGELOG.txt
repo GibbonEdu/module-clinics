@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.3.00
+-------
+Added Enrolment by Student
+
 v1.2.03
 -------
 Added "Assigned" flag to student enrolment in View Clinics

@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.2.03";
+$version = "1.3.00";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
@@ -224,6 +224,26 @@ $actionRows[] = [
     'description'               => 'Control settings for the Clinics module.',
     'URLList'                   => 'settings.php',
     'entryURL'                  => 'settings.php',
+    'entrySidebar'              => 'Y',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'Y',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Enrolment by Student',
+    'precedence'                => '0',
+    'category'                  => 'Clinics',
+    'description'               => 'Manage clinic enrolment for individual students.',
+    'URLList'                   => 'enrolmentByStudent.php,enrolmentByStudent_student.php,enrolmentByStudent_student_add.php,enrolmentByStudent_student_delete.php',
+    'entryURL'                  => 'enrolmentByStudent.php',
     'entrySidebar'              => 'Y',
     'menuShow'                  => 'Y',
     'defaultPermissionAdmin'    => 'Y',

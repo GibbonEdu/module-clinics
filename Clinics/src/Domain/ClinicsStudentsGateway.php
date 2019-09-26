@@ -69,4 +69,20 @@ class ClinicsStudentsGateway extends QueryableGateway
 
         return $this->runQuery($query, $criteria);
     }
+
+    public function queryStudentEnrolmentByStudent(QueryCriteria $criteria, Int $gibbonPersonID, Int $gibbonSchoolYearID)
+    {
+        $query = $this
+            ->newQuery()
+            ->from($this->getTableName())
+            ->cols(['clinicsClinicStudentID', 'clinicsClinic.clinicsClinicID', 'clinicsClinic.name', 'clinicsBlock.name AS block', 'clinicsClinicStudent.status'])
+            ->innerJoin('clinicsClinic','clinicsClinicStudent.clinicsClinicID=clinicsClinic.clinicsClinicID')
+            ->innerJoin('clinicsBlock','clinicsClinic.clinicsBlockID=clinicsBlock.clinicsBlockID')
+            ->innerJoin('gibbonPerson','clinicsClinicStudent.gibbonPersonID=gibbonPerson.gibbonPersonID')
+            ->where('clinicsClinicStudent.gibbonPersonID=:gibbonPersonID AND clinicsClinic.gibbonSchoolYearID=:gibbonSchoolYearID')
+            ->bindValue('gibbonPersonID', $gibbonPersonID)
+            ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID);
+
+        return $this->runQuery($query, $criteria);
+    }
 }
