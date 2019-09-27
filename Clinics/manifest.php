@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.3.00";
+$version = "1.4.00";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
@@ -139,7 +139,7 @@ $actionRows[] = [
 
 $actionRows[] = [
     'name'                      => 'Identify Priorities_all',
-    'precedence'                => '1',
+    'precedence'                => '2',
     'category'                  => 'Individual Needs',
     'description'               => 'Identify, across departments, which students would benefit from support.',
     'URLList'                   => 'identify.php',
@@ -159,9 +159,29 @@ $actionRows[] = [
 
 $actionRows[] = [
     'name'                      => 'Identify Priorities_department',
-    'precedence'                => '0',
+    'precedence'                => '1',
     'category'                  => 'Individual Needs',
     'description'               => 'Identify, in departments which the user is a Coordinator, which students would benefit from support.',
+    'URLList'                   => 'identify.php',
+    'entryURL'                  => 'identify.php',
+    'entrySidebar'              => 'N',
+    'menuShow'                  => 'Y',
+    'defaultPermissionAdmin'    => 'N',
+    'defaultPermissionTeacher'  => 'N',
+    'defaultPermissionStudent'  => 'N',
+    'defaultPermissionParent'   => 'N',
+    'defaultPermissionSupport'  => 'N',
+    'categoryPermissionStaff'   => 'Y',
+    'categoryPermissionStudent' => 'N',
+    'categoryPermissionParent'  => 'N',
+    'categoryPermissionOther'   => 'N',
+];
+
+$actionRows[] = [
+    'name'                      => 'Identify Priorities_viewOnly',
+    'precedence'                => '0',
+    'category'                  => 'Individual Needs',
+    'description'               => 'View identified priorities across all departments.',
     'URLList'                   => 'identify.php',
     'entryURL'                  => 'identify.php',
     'entrySidebar'              => 'N',

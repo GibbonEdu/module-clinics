@@ -59,23 +59,25 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
             $row->addSelectYearGroup('gibbonYearGroupID')->selected($gibbonYearGroupID)->placeholder()->required();
 
 
-        if ($highestAction == "Identify Priorities_all") {
-            $dataDepartments = array();
-            $sqlDepartments = "SELECT gibbonDepartmentID as value, name, nameShort FROM gibbonDepartment WHERE type='Learning Area' ORDER BY name";
+        if ($highestAction != "Identify Priorities_viewOnly") {
+            if ($highestAction == "Identify Priorities_all") {
+                $dataDepartments = array();
+                $sqlDepartments = "SELECT gibbonDepartmentID as value, name, nameShort FROM gibbonDepartment WHERE type='Learning Area' ORDER BY name";
+            }
+            else {
+                $dataDepartments = array('gibbonPersonID' => $gibbon->session->get('gibbonPersonID'));
+                $sqlDepartments = "SELECT gibbonDepartment.gibbonDepartmentID as value, name, nameShort
+                        FROM gibbonDepartment
+                            JOIN gibbonDepartmentStaff ON (gibbonDepartmentStaff.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID)
+                            JOIN gibbonPerson ON (gibbonDepartmentStaff.gibbonPersonID=gibbonPerson.gibbonPersonID)
+                        WHERE gibbonPerson.gibbonPersonID=:gibbonPersonID
+                            AND gibbonDepartmentStaff.role='Coordinator'
+                        ORDER BY name";
+            }
+            $row = $form->addRow();
+                $row->addLabel('gibbonDepartmentID', __('Learning Areas'));
+                $row->addSelect('gibbonDepartmentID')->fromQuery($pdo, $sqlDepartments, $dataDepartments)->selected($gibbonDepartmentID)->placeholder();
         }
-        else {
-            $dataDepartments = array('gibbonPersonID' => $gibbon->session->get('gibbonPersonID'));
-            $sqlDepartments = "SELECT gibbonDepartment.gibbonDepartmentID as value, name, nameShort
-                    FROM gibbonDepartment
-                        JOIN gibbonDepartmentStaff ON (gibbonDepartmentStaff.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID)
-                        JOIN gibbonPerson ON (gibbonDepartmentStaff.gibbonPersonID=gibbonPerson.gibbonPersonID)
-                    WHERE gibbonPerson.gibbonPersonID=:gibbonPersonID
-                        AND gibbonDepartmentStaff.role='Coordinator'
-                    ORDER BY name";
-        }
-        $row = $form->addRow();
-            $row->addLabel('gibbonDepartmentID', __('Learning Areas'));
-            $row->addSelect('gibbonDepartmentID')->fromQuery($pdo, $sqlDepartments, $dataDepartments)->selected($gibbonDepartmentID)->placeholder();
 
         $row = $form->addRow();
             $row->addSearchSubmit($gibbon->session, __('Clear Filters'));
@@ -117,14 +119,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
                 }
             }
 
-            if (!$departmentalAccess) {
+            if (!$departmentalAccess && $highestAction != "Identify Priorities_viewOnly") {
                 //Acess denied
                 echo "<div class='error'>";
                 echo __('You do not have access to this action.');
                 echo '</div>';
             } else {
-
-
                 $form = Form::create('identify', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/identifyProcess.php');
                 $form->setTitle('Priorities');
                 $form->setClass('w-full blank');
@@ -205,7 +205,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
 
                         foreach ($departmentsArray as $department) {
                             $priority = $priorities[$rowStudents['gibbonPersonID']][$department['value']] ?? '';
-                            if ($department['value'] == $gibbonDepartmentID) {
+                            if ($department['value'] == $gibbonDepartmentID && $highestAction != "Identify Priorities_viewOnly") {
                                 $row->addSelect('priorities[]')->fromArray($priorityListing)->selected($priority)->placeholder()->setClass('float-none w-24');
                                 $form->addHiddenValue('gibbonPersonIDs[]', $rowStudents['gibbonPersonID']);
                             }
@@ -230,7 +230,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
 
 
                 $row = $form->addRow();
-                if (!empty($gibbonDepartmentID)) {
+                if (!empty($gibbonDepartmentID) && $highestAction != "Identify Priorities_viewOnly") {
                     $row->addSubmit();
                 }
 

@@ -64,3 +64,13 @@ INSERT INTO `gibbonAction` (`gibbonModuleID`, `name`, `precedence`, `category`, 
 INSERT INTO `gibbonPermission` (`gibbonRoleID` ,`gibbonActionID`) VALUES ('001', (SELECT gibbonActionID FROM gibbonAction JOIN gibbonModule ON (gibbonAction.gibbonModuleID=gibbonModule.gibbonModuleID) WHERE gibbonModule.name='Clinics' AND gibbonAction.name='Enrolment by Student'));end
 ";
 $count++;
+
+
+//v1.4.00
+$sql[$count][0] = "1.4.00";
+$sql[$count][1] = "
+UPDATE gibbonAction SET precedence=2 WHERE name='Identify Priorities_all' AND gibbonModuleID=(SELECT gibbonModuleID FROM gibbonModule WHERE name='Clinics');end
+UPDATE gibbonAction SET precedence=1 WHERE name='Identify Priorities_department' AND gibbonModuleID=(SELECT gibbonModuleID FROM gibbonModule WHERE name='Clinics');end
+INSERT INTO `gibbonAction` (`gibbonModuleID`, `name`, `precedence`, `category`, `description`, `URLList`, `entryURL`, `defaultPermissionAdmin`, `defaultPermissionTeacher`, `defaultPermissionStudent`, `defaultPermissionParent`, `defaultPermissionSupport`, `categoryPermissionStaff`, `categoryPermissionStudent`, `categoryPermissionParent`, `categoryPermissionOther`) VALUES ((SELECT gibbonModuleID FROM gibbonModule WHERE name='Clinics'), 'Identify Priorities_viewOnly', 0, 'Individual Needs', 'View identified priorities across all departments.', 'identify.php', 'identify.php', 'N', 'N', 'N', 'N', 'N', 'Y', 'N', 'N', 'N');end
+";
+$count++;
