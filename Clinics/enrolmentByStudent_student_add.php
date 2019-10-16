@@ -76,7 +76,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
 
             $criteria = $clinicsGateway->newQueryCriteria()
                 ->sortBy(['sequenceNumber','clinicsClinic.name'])
-                ->fromPOST();
+                ->fromPOST()
+                ->pageSize(0);
 
             $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 
