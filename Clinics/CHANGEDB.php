@@ -74,3 +74,8 @@ UPDATE gibbonAction SET precedence=1 WHERE name='Identify Priorities_department'
 INSERT INTO `gibbonAction` (`gibbonModuleID`, `name`, `precedence`, `category`, `description`, `URLList`, `entryURL`, `defaultPermissionAdmin`, `defaultPermissionTeacher`, `defaultPermissionStudent`, `defaultPermissionParent`, `defaultPermissionSupport`, `categoryPermissionStaff`, `categoryPermissionStudent`, `categoryPermissionParent`, `categoryPermissionOther`) VALUES ((SELECT gibbonModuleID FROM gibbonModule WHERE name='Clinics'), 'Identify Priorities_viewOnly', 0, 'Individual Needs', 'View identified priorities across all departments.', 'identify.php', 'identify.php', 'N', 'N', 'N', 'N', 'N', 'Y', 'N', 'N', 'N');end
 ";
 $count++;
+
+//v1.4.01
+$sql[$count][0] = "1.4.01";
+$sql[$count][1] = "";
+$count++;
