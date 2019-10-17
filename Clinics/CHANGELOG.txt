@@ -1,8 +1,12 @@
 CHANGELOG
 =========
+v1.4.02
+-------
+Fixed bug limiting clinic choice in Student enrolment
+
 v1.4.01
 -------
-Fixed bug limiting clinic choice in  Enrolment by Student
+Fixed bug limiting clinic choice in Enrolment by Student
 
 v1.4.00
 -------

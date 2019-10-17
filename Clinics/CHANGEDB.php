@@ -79,3 +79,8 @@ $count++;
 $sql[$count][0] = "1.4.01";
 $sql[$count][1] = "";
 $count++;
+
+//v1.4.02
+$sql[$count][0] = "1.4.02";
+$sql[$count][1] = "";
+$count++;
