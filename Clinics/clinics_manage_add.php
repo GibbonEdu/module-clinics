@@ -77,6 +77,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_add
 		$row->addYesNo('active')->required();
 
     $row = $form->addRow();
+        $row->addLabel('lockEnrolment', __('Lock Enrolment'))->description(__m('Should students be prevented from enroling?'));
+		$row->addYesNo('lockEnrolment')->selected('N')->required();
+
+    $row = $form->addRow();
         $row->addLabel('maxParticipants', __('Max Participants'));
 		$row->addNumber('maxParticipants')->required()->maxLength(3)->setValue('20');
 

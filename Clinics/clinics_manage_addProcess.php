@@ -42,12 +42,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_add
         'gibbonDepartmentID'    => $_POST['gibbonDepartmentID'] ?? '',
         'gibbonYearGroupIDList' => !empty($_POST['gibbonYearGroupIDList']) ? implode(",", $_POST['gibbonYearGroupIDList']) : '',
         'active'                => $_POST['active'] ?? '',
+        'lockEnrolment'         => $_POST['lockEnrolment'] ?? '',
         'maxParticipants'       => $_POST['maxParticipants'] ?? '',
         'gibbonSpaceID'         => $_POST['gibbonSpaceID'] ?? '',
     ];
 
     // Validate the required values are present
-    if (empty($data['gibbonSchoolYearID']) || empty($data['clinicsBlockID']) || empty($data['name']) || empty($data['active']) || !is_numeric($data['maxParticipants'])) {
+    if (empty($data['gibbonSchoolYearID']) || empty($data['clinicsBlockID']) || empty($data['name']) || empty($data['active']) || empty($data['lockEnrolment']) || !is_numeric($data['maxParticipants'])) {
         $URL .= '&return=error1';
         header("Location: {$URL}");
         exit;

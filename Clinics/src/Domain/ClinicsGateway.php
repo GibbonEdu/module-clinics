@@ -35,20 +35,25 @@ class ClinicsGateway extends QueryableGateway
      * @param QueryCriteria $criteria
      * @param Int $gibbonSchoolYearID
      * @param String $gibbonYearGroupID //Converts int to string for database query
+     * @param Bool $enforceLockEnrolment
      * @return DataSet
      */
-    public function queryClinicsBySchoolYear(QueryCriteria $criteria, Int $gibbonSchoolYearID, String $gibbonYearGroupID = null)
+    public function queryClinicsBySchoolYear(QueryCriteria $criteria, Int $gibbonSchoolYearID, String $gibbonYearGroupID = null, Bool $enforceLockEnrolment = false)
     {
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicID', 'clinicsBlock.clinicsBlockID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name AS blockName', 'gibbonSchoolYear.name AS schoolYear', 'gibbonDepartment.name AS department', 'clinicsClinic.name', 'description', 'active', 'maxParticipants', 'gibbonSpace.name AS space'])
+            ->cols(['clinicsClinicID', 'clinicsBlock.clinicsBlockID', 'clinicsBlock.sequenceNumber', 'clinicsBlock.name AS blockName', 'gibbonSchoolYear.name AS schoolYear', 'gibbonDepartment.name AS department', 'clinicsClinic.name', 'description', 'active', 'lockEnrolment', 'maxParticipants', 'gibbonSpace.name AS space'])
             ->innerJoin('gibbonSchoolYear', 'clinicsClinic.gibbonSchoolYearID=gibbonSchoolYear.gibbonSchoolYearID')
             ->innerJoin('clinicsBlock', 'clinicsClinic.clinicsBlockID=clinicsBlock.clinicsBlockID')
             ->leftJoin('gibbonDepartment', 'clinicsClinic.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID')
             ->leftJoin('gibbonSpace', 'clinicsClinic.gibbonSpaceID=gibbonSpace.gibbonSpaceID')
             ->where('clinicsClinic.gibbonSchoolYearID=:gibbonSchoolYearID')
             ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID);
+
+        if ($enforceLockEnrolment) {
+            $query->where('lockEnrolment=\'N\'');
+        }
 
         if (!is_null($gibbonYearGroupID)) {
             $query

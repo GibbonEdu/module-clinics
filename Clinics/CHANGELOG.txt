@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.5.00
+-------
+Add option to Lock Enrolment on individual clinics, to prevent student sign up.
+
 v1.4.02
 -------
 Fixed bug limiting clinic choice in Student enrolment

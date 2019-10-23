@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.4.02";
+$version = "1.5.00";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
@@ -37,6 +37,7 @@ $moduleTables[] = "CREATE TABLE `clinicsClinic` (
     `gibbonDepartmentID` int(4) unsigned zerofill NULL DEFAULT NULL,
     `gibbonYearGroupIDList` varchar(255),
     `active` enum('Y','N') DEFAULT 'Y',
+    `lockEnrolment` ENUM('N','Y') NOT NULL DEFAULT 'N',
     `maxParticipants` int(3) NOT NULL,
     `gibbonSpaceID` int(10) unsigned zerofill NULL DEFAULT NULL,
   PRIMARY KEY (`clinicsClinicID`)

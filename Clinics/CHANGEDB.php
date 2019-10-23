@@ -84,3 +84,10 @@ $count++;
 $sql[$count][0] = "1.4.02";
 $sql[$count][1] = "";
 $count++;
+
+//v1.5.00
+$sql[$count][0] = "1.5.00";
+$sql[$count][1] = "
+ALTER TABLE `clinicsClinic` ADD `lockEnrolment` ENUM('N','Y') NOT NULL DEFAULT 'N' AFTER `active`;end
+";
+$count++;
