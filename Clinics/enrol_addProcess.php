@@ -66,7 +66,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
 
         //Check clinic exists, get maxParticipants
         $values = $clinicsGateway->getByID($data['clinicsClinicID']);
-        if (!$values) {
+        if (!$values || $values['lockEnrolment'] == 'Y') {
             $URL .= '&return=error2';
             header("Location: {$URL}");
             exit;

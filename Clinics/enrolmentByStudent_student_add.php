@@ -83,6 +83,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
 
             foreach ($clinics AS $clinic) {
                 $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] = $clinic['name'] ;
+                if ($clinic['lockEnrolment'] == 'Y') {
+                    $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] .= ' ('.__m('Enrolment Locked').')';
+                }
             }
 
             //Form
