@@ -59,62 +59,55 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
         $page->breadcrumbs
             ->add(__m('Add Clinic'));
 
-        $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
-        if ($enrolmentActive != "Y") {
-            $page->addMessage(__m('Enrolment is not currently open.'));
+        if (isset($_GET['return'])) {
+            returnProcess($guid, $_GET['return'], null, null);
         }
-        else {
 
-            if (isset($_GET['return'])) {
-                returnProcess($guid, $_GET['return'], null, null);
+        //Assemble clinic select array
+        $clinicsArray = array();
+
+        $clinicsGateway = $container->get(ClinicsGateway::class);
+
+        $criteria = $clinicsGateway->newQueryCriteria()
+            ->sortBy(['sequenceNumber','clinicsClinic.name'])
+            ->fromPOST()
+            ->pageSize(0);
+
+        $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
+
+        foreach ($clinics AS $clinic) {
+            $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] = $clinic['name'] ;
+            if ($clinic['lockEnrolment'] == 'Y') {
+                $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] .= ' ('.__m('Enrolment Locked').')';
             }
-
-            //Assemble clinic select array
-            $clinicsArray = array();
-
-            $clinicsGateway = $container->get(ClinicsGateway::class);
-
-            $criteria = $clinicsGateway->newQueryCriteria()
-                ->sortBy(['sequenceNumber','clinicsClinic.name'])
-                ->fromPOST()
-                ->pageSize(0);
-
-            $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
-
-            foreach ($clinics AS $clinic) {
-                $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] = $clinic['name'] ;
-                if ($clinic['lockEnrolment'] == 'Y') {
-                    $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] .= ' ('.__m('Enrolment Locked').')';
-                }
-            }
-
-            //Form
-            $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/enrolmentByStudent_student_addProcess.php');
-
-            $form->addHiddenValue('address', $gibbon->session->get('address'));
-            $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
-            $form->addHiddenValue('gibbonPersonID', $gibbonPersonID);
-            $form->addHiddenValue('search', $search);
-
-            $row = $form->addRow();
-                $row->addLabel('clinicsClinicID', __('Clinic'));
-                $row->addSelect('clinicsClinicID')
-                    ->fromArray($clinicsArray[$clinicsBlockID])
-                    ->placeholder()
-                    ->required();
-
-            $statuses = array("Enroled" => __m("Enroled"), "Assigned" => __m("Assigned"));
-            $row = $form->addRow();
-                $row->addLabel('status', __('Status'));
-                $row->addSelect('status')
-                    ->fromArray($statuses)
-                    ->required();
-
-            $row = $form->addRow();
-                $row->addFooter();
-                $row->addSubmit();
-
-            echo $form->getOutput();
         }
+
+        //Form
+        $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/enrolmentByStudent_student_addProcess.php');
+
+        $form->addHiddenValue('address', $gibbon->session->get('address'));
+        $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
+        $form->addHiddenValue('gibbonPersonID', $gibbonPersonID);
+        $form->addHiddenValue('search', $search);
+
+        $row = $form->addRow();
+            $row->addLabel('clinicsClinicID', __('Clinic'));
+            $row->addSelect('clinicsClinicID')
+                ->fromArray($clinicsArray[$clinicsBlockID])
+                ->placeholder()
+                ->required();
+
+        $statuses = array("Enroled" => __m("Enroled"), "Assigned" => __m("Assigned"));
+        $row = $form->addRow();
+            $row->addLabel('status', __('Status'));
+            $row->addSelect('status')
+                ->fromArray($statuses)
+                ->required();
+
+        $row = $form->addRow();
+            $row->addFooter();
+            $row->addSubmit();
+
+        echo $form->getOutput();
     }
 }
