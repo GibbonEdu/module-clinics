@@ -22,10 +22,11 @@ use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 require_once '../../gibbon.php';
 
 $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+$clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 $clinicsClinicID = $_POST['clinicsClinicID'] ?? '';
 $clinicsClinicStudentID = $_POST['clinicsClinicStudentID'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsClinicID='.$clinicsClinicID;
+$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID.'&clinicsClinicID='.$clinicsClinicID;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enrolment_delete.php') == false) {
     $URL .= '&return=error0';

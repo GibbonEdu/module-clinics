@@ -30,6 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
     $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
     $schoolYearGateway = $container->get(SchoolYearGateway::class);
     $schoolYear = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
+    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
     $yearName = $schoolYear['name'];
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
 
@@ -39,6 +40,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
+    }
+
+    if ($clinicsBlockID != '') {
+        echo "<div class='linkTop'>";
+        echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Clinics/clinics_manage.php&gibbonSchoolYearID=".$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."'>".('Back to Search Results')."</a>";
+        echo "</div>";
     }
 
     if (empty($clinicsClinicID)) {
@@ -53,7 +60,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
         return;
     }
 
-    $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinics_manage_editProcess.php');
+    $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinics_manage_editProcess.php?clinicsBlockID='.$clinicsBlockID);
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
     $form->addHiddenValue('address', $gibbon->session->get('address'));

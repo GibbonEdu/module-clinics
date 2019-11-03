@@ -28,6 +28,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 } else {
     // Proceed!
     $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 
     $page->breadcrumbs
         ->add(__m('Manage Clinics'), 'clinics_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
@@ -35,6 +36,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
+    }
+
+    if ($clinicsBlockID != '') {
+        echo "<div class='linkTop'>";
+        echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Clinics/clinics_manage.php&gibbonSchoolYearID=".$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."'>".('Back to Search Results')."</a>";
+        echo "</div>";
     }
 
     $clinicsGateway = $container->get(ClinicsGateway::class);
@@ -67,6 +74,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     $table->addHeaderAction('add', __('Add'))
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
+        ->addParam('clinicsBlockID', $clinicsBlockID)
         ->addParam('clinicsClinicID', $clinicsClinicID)
         ->setURL('/modules/Clinics/clinics_manage_enrolment_add.php')
         ->displayLabel();
@@ -82,6 +90,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
     // ACTIONS
     $table->addActionColumn()
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
+        ->addParam('clinicsBlockID', $clinicsBlockID)
         ->addParam('clinicsClinicID', $clinicsClinicID)
         ->addParam('clinicsClinicStudentID')
         ->format(function ($person, $actions) {

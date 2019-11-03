@@ -29,7 +29,7 @@ class ClinicsGateway extends QueryableGateway
 
     private static $tableName = 'clinicsClinic';
     private static $primaryKey = 'clinicsClinicID';
-    private static $searchableColumns = [''];
+    private static $searchableColumns = ['clinicsClinic.clinicsBlockID'];
 
     /**
      * @param QueryCriteria $criteria

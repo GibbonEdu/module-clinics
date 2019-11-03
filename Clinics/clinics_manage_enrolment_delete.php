@@ -27,6 +27,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 } else {
     // Proceed!
     $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
     $clinicsClinicStudentID = $_GET['clinicsClinicStudentID'] ?? '';
 
@@ -34,7 +35,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         $page->addError(__('You have not specified one or more required parameters.'));
         return;
     }
-    
+
     $values = $container->get(ClinicsStudentsGateway::class)->getByID($clinicsClinicStudentID);
 
     if (empty($values)) {
@@ -42,6 +43,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         return;
     }
 
-    $form = DeleteForm::createForm($gibbon->session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_deleteProcess.php?gibbonSchoolYearID='.$gibbonSchoolYearID);
+    $form = DeleteForm::createForm($gibbon->session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_deleteProcess.php?gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID);
     echo $form->getOutput();
 }

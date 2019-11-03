@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Forms\Form;
 use Gibbon\Tables\DataTable;
 use Gibbon\Services\Format;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
@@ -36,9 +37,30 @@ if (isModuleAccessible($guid, $connection2) == false) {
         returnProcess($guid, $_GET['return'], null, null);
     }
 
+    //Filter
+    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
+
+    $form = Form::create('search', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form->setTitle(__('Filter'));
+    $form->setClass('noIntBorder fullWidth');
+
+    $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/clinics.php');
+
+    $data = array('gibbonSchoolYearID' => $gibbonSchoolYearID);
+    $sql = "SELECT clinicsBlockID as value, name FROM clinicsBlock WHERE gibbonSchoolYearID=:gibbonSchoolYearID ORDER BY sequenceNumber";
+    $row = $form->addRow();
+        $row->addLabel('clinicsBlockID', __('Block'));
+        $row->addSelect('clinicsBlockID')->fromQuery($pdo, $sql, $data)->placeholder()->selected($clinicsBlockID);
+
+    $row = $form->addRow();
+        $row->addSearchSubmit($gibbon->session, __('Clear Search'));
+
+    echo $form->getOutput();
+
     $clinicsGateway = $container->get(ClinicsGateway::class);
 
     $criteria = $clinicsGateway->newQueryCriteria()
+        ->searchBy($clinicsGateway->getSearchableColumns(), $clinicsBlockID)
         ->sortBy(['clinicsBlock.sequenceNumber','clinicsClinic.name'])
         ->fromPOST('clinics');
 

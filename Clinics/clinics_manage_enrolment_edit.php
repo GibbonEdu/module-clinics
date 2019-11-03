@@ -28,6 +28,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 } else {
     // Proceed!
     $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
     $clinicsClinicStudentID = $_GET['clinicsClinicStudentID'] ?? '';
 
@@ -38,6 +39,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
+    }
+
+    if (!empty($clinicsBlockID)) {
+        echo "<div class='linkTop'>";
+        echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."&clinicsClinicID=$clinicsClinicID'>".__('Back').'</a>';
+        echo '</div>';
     }
 
     if (empty($clinicsClinicID) || empty($clinicsClinicStudentID)) {
@@ -57,6 +64,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     $form->addHiddenValue('address', $gibbon->session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
+    $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
     $form->addHiddenValue('clinicsClinicStudentID', $clinicsClinicStudentID);
 

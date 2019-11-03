@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.7.00
+-------
+Added block filtering to View and Manage actions
+
 v1.6.01
 -------
 Fixed bug preventing enrolment of student by staff, when enrolment is closed
