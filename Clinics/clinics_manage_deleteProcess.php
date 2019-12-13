@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
+use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
 require_once '../../gibbon.php';
 
@@ -47,6 +48,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_del
     }
 
     $deleted = $clinicsGateway->delete($clinicsClinicID);
+
+    $clinicsStudentGateway = $container->get(ClinicsStudentsGateway::class);
+    $clinicsStudentGateway->deleteStudentEnrolmentByClinic($clinicsClinicID);
 
     $URL .= !$deleted
         ? '&return=error2'

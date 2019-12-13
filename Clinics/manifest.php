@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.7.00";
+$version = "1.7.01";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
@@ -70,7 +70,8 @@ $moduleTables[] = "CREATE TABLE `clinicsClinicStudent` (
     `gibbonPersonID` int(10) unsigned zerofill NOT NULL,
     `clinicsClinicID` int(7) unsigned zerofill NULL DEFAULT NULL,
     `status` enum('Assigned','Enroled') NULL DEFAULT NULL,
-  PRIMARY KEY (`clinicsClinicStudentID`)
+  PRIMARY KEY (`clinicsClinicStudentID`),
+  UNIQUE KEY `student` (`clinicsBlockID`,`gibbonPersonID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 //Settings

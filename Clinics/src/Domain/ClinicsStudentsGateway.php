@@ -85,4 +85,13 @@ class ClinicsStudentsGateway extends QueryableGateway
 
         return $this->runQuery($query, $criteria);
     }
+
+    public function deleteStudentEnrolmentByClinic($clinicsClinicID)
+    {
+        $data = ['clinicsClinicID' => $clinicsClinicID];
+        $sql = "DELETE FROM clinicsClinicStudent
+                WHERE clinicsClinicID = :clinicsClinicID";
+
+        return $this->db()->delete($sql, $data);
+    }
 }
