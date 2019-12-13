@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
+use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
 include '../../gibbon.php';
 
@@ -32,6 +33,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
     exit;
 } else {
     //Fetch blocks
+    $clinicsStudentsGateway = $container->get(ClinicsStudentsGateway::class);
     $clinicsBlocksGateway = $container->get(ClinicsBlocksGateway::class);
 
     $criteria = $clinicsBlocksGateway->newQueryCriteria()
@@ -65,18 +67,23 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                     $clinicsClinicID = ($clinics[$count] != '') ? $clinics[$count] : NULL ;
                     $status = (!is_null($clinicsClinicID)) ? 'Assigned' : NULL;
 
-                    if ($resultStudent->rowCount() == 1) { //Exists, so update
+                    if ($resultStudent->rowCount() == 1) { //Exists
                         $rowStudent = $resultStudent->fetch();
-                        try {
-                            $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsClinicStudentID' => $rowStudent['clinicsClinicStudentID']);
-                            $sql = 'UPDATE clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status WHERE clinicsClinicStudentID=:clinicsClinicStudentID';
-                            $result = $connection2->prepare($sql);
-                            $result->execute($data);
-                        } catch (PDOException $e) {
-                            $partialFail = true;
+                        if (!is_null($clinicsClinicID)) { //Update
+                            try {
+                                $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsClinicStudentID' => $rowStudent['clinicsClinicStudentID']);
+                                $sql = 'UPDATE clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status WHERE clinicsClinicStudentID=:clinicsClinicStudentID';
+                                $result = $connection2->prepare($sql);
+                                $result->execute($data);
+                            } catch (PDOException $e) {
+                                $partialFail = true;
+                            }
+                        }
+                        else { //Remove
+                            $clinicsStudentsGateway->delete($rowStudent['clinicsClinicStudentID']);
                         }
                     }
-                    else if ($resultStudent->rowCount() == 0) { //Does not exist, so insert
+                    else if ($resultStudent->rowCount() == 0 && !is_null($clinicsClinicID)) { //Does not exist, so insert if not blank
                         try {
                             $data = array('clinicsClinicID' => $clinicsClinicID, 'status' => $status, 'clinicsBlockID' => $block['clinicsBlockID'], 'gibbonPersonID' => $gibbonPersonID);
                             $sql = 'INSERT INTO  clinicsClinicStudent SET clinicsClinicID=:clinicsClinicID, status=:status, clinicsBlockID=:clinicsBlockID, gibbonPersonID=:gibbonPersonID';
@@ -85,9 +92,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                         } catch (PDOException $e) {
                             $partialFail = true;
                         }
-                    }
-                    else {
-                        $partialFail = true;
                     }
                 }
                 $count++;

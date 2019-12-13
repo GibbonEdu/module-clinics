@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.7.02
+-------
+Fixed null record issue in clinicsClinicStudent
+
 v1.7.01
 -------
 Added unique key for student/block

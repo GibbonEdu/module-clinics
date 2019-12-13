@@ -111,3 +111,8 @@ $count++;
 $sql[$count][0] = "1.7.01";
 $sql[$count][1] = "ALTER TABLE `clinicsClinicStudent` ADD UNIQUE KEY `student` (`clinicsBlockID`,`gibbonPersonID`);end";
 $count++;
+
+//v1.7.02
+$sql[$count][0] = "1.7.02";
+$sql[$count][1] = "";
+$count++;
