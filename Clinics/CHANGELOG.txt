@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.7.03
+-------
+Limited enroled student view/count to Full students
+
 v1.7.02
 -------
 Fixed null record issue in clinicsClinicStudent

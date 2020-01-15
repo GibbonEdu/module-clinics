@@ -42,11 +42,13 @@ class ClinicsStudentsGateway extends QueryableGateway
         $query = $this
             ->newQuery()
             ->from($this->getTableName())
-            ->cols(['clinicsClinicStudentID', 'clinicsClinicStudent.clinicsBlockID', 'gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'status', 'clinicsClinic.name'])
+            ->cols(['clinicsClinicStudentID', 'clinicsClinicStudent.clinicsBlockID', 'clinicsClinicStudent.gibbonPersonID', 'clinicsClinicStudent.clinicsClinicID', 'clinicsClinicStudent.status', 'clinicsClinic.name'])
             ->innerJoin('clinicsBlock', 'clinicsClinicStudent.clinicsBlockID=clinicsBlock.clinicsBlockID')
             ->innerJoin('clinicsClinic', 'clinicsClinicStudent.clinicsClinicID=clinicsClinic.clinicsClinicID')
+            ->innerJoin('gibbonPerson','clinicsClinicStudent.gibbonPersonID=gibbonPerson.gibbonPersonID')
             ->where('clinicsBlock.gibbonSchoolYearID=:gibbonSchoolYearID')
-            ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID);
+            ->bindValue('gibbonSchoolYearID', $gibbonSchoolYearID)
+            ->where('gibbonPerson.status=\'Full\'');
 
         if (!is_null($gibbonYearGroupID)) {
             $query
@@ -65,7 +67,8 @@ class ClinicsStudentsGateway extends QueryableGateway
             ->cols(['clinicsClinicStudentID', 'clinicsClinicID', 'clinicsClinicStudent.gibbonPersonID', 'clinicsClinicStudent.status', 'surname', 'preferredName'])
             ->innerJoin('gibbonPerson','clinicsClinicStudent.gibbonPersonID=gibbonPerson.gibbonPersonID')
             ->where('clinicsClinicID=:clinicsClinicID')
-            ->bindValue('clinicsClinicID', $clinicsClinicID);
+            ->bindValue('clinicsClinicID', $clinicsClinicID)
+            ->where('gibbonPerson.status=\'Full\'');
 
         return $this->runQuery($query, $criteria);
     }
