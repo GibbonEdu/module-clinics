@@ -45,10 +45,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
     echo __('Search');
     echo '</h2>';
 
-    $form = Form::create('searchForm', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form = Form::create('searchForm', $session->get('absoluteURL').'/index.php', 'get');
     $form->setClass('noIntBorder fullWidth');
 
-    $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/enrolmentByStudent.php');
+    $form->addHiddenValue('q', '/modules/'.$session->get('module').'/enrolmentByStudent.php');
 
     $row = $form->addRow();
         $row->addLabel('search', __('Search For'))->description(__('Preferred, surname, username.'));
@@ -63,7 +63,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
     echo __('Choose A Student');
     echo '</h2>';
 
-    $students = $studentGateway->queryStudentsBySchoolYear($criteria, $_SESSION[$guid]['gibbonSchoolYearID']);
+    $students = $studentGateway->queryStudentsBySchoolYear($criteria, $session->get('gibbonSchoolYearID'));
 
     // DATA TABLE
     $table = DataTable::createPaginated('inView', $criteria);
