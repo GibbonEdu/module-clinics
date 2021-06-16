@@ -64,11 +64,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
     //Filter
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 
-    $form = Form::create('search', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form = Form::create('search', $session->get('absoluteURL').'/index.php', 'get');
     $form->setTitle(__('Filter'));
     $form->setClass('noIntBorder fullWidth');
 
-    $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/clinics_manage.php');
+    $form->addHiddenValue('q', '/modules/'.$session->get('module').'/clinics_manage.php');
 
     $data = array('gibbonSchoolYearID' => $gibbonSchoolYearID);
     $sql = "SELECT clinicsBlockID as value, name FROM clinicsBlock WHERE gibbonSchoolYearID=:gibbonSchoolYearID ORDER BY sequenceNumber";

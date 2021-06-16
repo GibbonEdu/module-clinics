@@ -69,7 +69,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
 
         if ($search != '') {
             echo "<div class='linkTop'>";
-            echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Clinics/enrolmentByStudent.php&search=".$search."'>".__('Back to Search Results').'</a>';
+            echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/Clinics/enrolmentByStudent.php&search=".$search."'>".__('Back to Search Results').'</a>';
             echo '</div>';
         }
 
