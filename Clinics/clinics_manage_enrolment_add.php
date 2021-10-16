@@ -41,7 +41,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     if (!empty($clinicsBlockID)) {
         echo "<div class='linkTop'>";
-        echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."&clinicsClinicID=$clinicsClinicID'>".__('Back').'</a>';
+        echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."&clinicsClinicID=$clinicsClinicID'>".__('Back').'</a>';
         echo '</div>';
     }
 
