@@ -127,7 +127,7 @@ $sql[$count][0] = "1.8.00";
 $sql[$count][1] = "";
 $count++;
 
-//v1.8.01
-$sql[$count][0] = "1.8.01";
+//v1.8.02
+$sql[$count][0] = "1.8.02";
 $sql[$count][1] = "";
 $count++;

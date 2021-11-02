@@ -52,11 +52,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
     } else {
         $page->breadcrumbs->add(Format::name('', $person['preferredName'], $person['surname'], 'Student', true, true));
 
-        $returns = array();
-        $returns['error3'] = __m('The selected clinic is full: please select another clinic.');
-        if (isset($_GET['return'])) {
-            returnProcess($guid, $_GET['return'], null, $returns);
-        }
+        $returns = ['error3' => __m('The selected clinic is full: please select another clinic.')];
+        $page->return->addReturns($returns);
 
         //Query blocks in the current year
         $clinicsBlocksGateway = $container->get(ClinicsBlocksGateway::class);

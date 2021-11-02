@@ -37,10 +37,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
         //Proceed!
         $page->breadcrumbs->add(__('Identify Priorities'));
 
-        if (isset($_GET['return'])) {
-            returnProcess($guid, $_GET['return'], null);
-        }
-
         echo '<h2>';
         echo __('Filter');
         echo '</h2>';

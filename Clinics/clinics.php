@@ -33,10 +33,6 @@ if (isModuleAccessible($guid, $connection2) == false) {
     $page->breadcrumbs
         ->add(__m('View Clinics'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     //Filter
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 

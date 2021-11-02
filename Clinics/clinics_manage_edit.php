@@ -38,10 +38,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
         ->add(__m('Manage Clinics'), 'clinics_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
         ->add(__m('Edit Clinic'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     if ($clinicsBlockID != '') {
         echo "<div class='linkTop'>";
         echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/Clinics/clinics_manage.php&gibbonSchoolYearID=".$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."'>".('Back to Search Results')."</a>";

@@ -35,10 +35,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         ->add(__m('Manage Enrolment'), 'clinics_manage_enrolment.php', ['clinicsClinicID' => $clinicsClinicID, 'gibbonSchoolYearID' => $gibbonSchoolYearID])
         ->add(__m('Enrol'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     if (!empty($clinicsBlockID)) {
         echo "<div class='linkTop'>";
         echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."&clinicsClinicID=$clinicsClinicID'>".__('Back').'</a>';

@@ -40,10 +40,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
         //Proceed!
         $page->breadcrumbs->add(__('Assign Clinics'));
 
-        if (isset($_GET['return'])) {
-            returnProcess($guid, $_GET['return'], null);
-        }
-
         echo '<h2>';
         echo __('Filter');
         echo '</h2>';

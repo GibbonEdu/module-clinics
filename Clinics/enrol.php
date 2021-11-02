@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 use Gibbon\Services\Format;
 use Gibbon\Tables\DataTable;
 use Gibbon\Tables\View\GridView;
+use Gibbon\Domain\System\SettingGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == false) {
@@ -32,16 +33,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == fal
     $page->breadcrumbs
         ->add(__m('Enrol'));
 
-    $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+    $enrolmentActive = $container->get(SettingGateway::class)->getSettingByScope('Clinics', 'enrolmentActive');
     if ($enrolmentActive != "Y") {
         $page->addMessage(__m('Enrolment is not currently open.'));
     }
     else {
-        $returns = array();
-        $returns['error3'] = __m('The selected clinic is full: please select another clinic.');
-        if (isset($_GET['return'])) {
-            returnProcess($guid, $_GET['return'], null, $returns);
-        }
+        $returns = ['error3' => __m('The selected clinic is full: please select another clinic.')];
+        $page->return->addReturns($returns);
 
         //Query blocks in the current year
         $clinicsBlocksGateway = $container->get(ClinicsBlocksGateway::class);

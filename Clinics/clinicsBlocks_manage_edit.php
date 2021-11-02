@@ -37,10 +37,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         ->add(__m('Manage Blocks'), 'clinicsBlocks_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
         ->add(__m('Edit Block'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     if (empty($clinicsBlockID)) {
         $page->addError(__('You have not specified one or more required parameters.'));
         return;

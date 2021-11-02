@@ -59,10 +59,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
         $page->breadcrumbs
             ->add(__m('Add Clinic'));
 
-        if (isset($_GET['return'])) {
-            returnProcess($guid, $_GET['return'], null, null);
-        }
-
         //Assemble clinic select array
         $clinicsArray = array();
 

@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 use Gibbon\Forms\Form;
+use Gibbon\Domain\System\SettingGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') == false) {
@@ -46,16 +47,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
             ->add(__m('Enrol'), 'enrol.php')
             ->add(__m('Add Clinic'));
 
-        $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+        $enrolmentActive = $container->get(SettingGateway::class)->getSettingByScope('Clinics', 'enrolmentActive');
         if ($enrolmentActive != "Y") {
             $page->addMessage(__m('Enrolment is not currently open.'));
         }
         else {
-
-            if (isset($_GET['return'])) {
-                returnProcess($guid, $_GET['return'], null, null);
-            }
-
             //Assemble clinic select array
             $clinicsArray = array();
 

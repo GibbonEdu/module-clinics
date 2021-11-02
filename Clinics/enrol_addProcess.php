@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Domain\System\SettingGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
@@ -29,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
     header("Location: {$URL}");
     exit;
 } else {
-    $enrolmentActive = getSettingByScope($connection2, 'Clinics', 'enrolmentActive');
+    $enrolmentActive = $container->get(SettingGateway::class)->getSettingByScope('Clinics', 'enrolmentActive');
     if ($enrolmentActive != "Y") {
         $URL .= '&return=error0';
         header("Location: {$URL}");

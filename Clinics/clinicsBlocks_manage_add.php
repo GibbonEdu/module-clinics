@@ -35,10 +35,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         ->add(__m('Manage Blocks'), 'clinicsBlocks_manage.php', ['gibbonSchoolYearID' => $gibbonSchoolYearID])
         ->add(__m('Add Block'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     $form = Form::create('block', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinicsBlocks_manage_addProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 

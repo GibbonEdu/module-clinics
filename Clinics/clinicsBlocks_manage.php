@@ -32,10 +32,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
     $page->breadcrumbs
         ->add(__m('Manage Blocks'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     // School Year Picker
     if (!empty($gibbonSchoolYearID)) {
         $schoolYearGateway = $container->get(SchoolYearGateway::class);
