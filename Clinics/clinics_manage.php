@@ -35,26 +35,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
 
     // School Year Picker
     if (!empty($gibbonSchoolYearID)) {
-        $schoolYearGateway = $container->get(SchoolYearGateway::class);
-        $yearName = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
-
-        echo '<h2>';
-        echo $yearName['name'];
-        echo '</h2>';
-
-        echo "<div class='linkTop'>";
-            if ($prevSchoolYear = $schoolYearGateway->getPreviousSchoolYearByID($gibbonSchoolYearID)) {
-                echo "<a href='".$gibbon->session->get('absoluteURL').'/index.php?q='.$_GET['q'].'&gibbonSchoolYearID='.$prevSchoolYear['gibbonSchoolYearID']."'>".__('Previous Year').'</a> ';
-            } else {
-                echo __('Previous Year').' ';
-            }
-			echo ' | ';
-			if ($nextSchoolYear = $schoolYearGateway->getNextSchoolYearByID($gibbonSchoolYearID)) {
-				echo "<a href='".$gibbon->session->get('absoluteURL').'/index.php?q='.$_GET['q'].'&gibbonSchoolYearID='.$nextSchoolYear['gibbonSchoolYearID']."'>".__('Next Year').'</a> ';
-			} else {
-				echo __('Next Year').' ';
-			}
-        echo '</div>';
+        $page->navigator->addSchoolYearNavigation($gibbonSchoolYearID);
     }
 
     //Filter

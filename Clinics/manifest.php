@@ -23,7 +23,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.8.02";
+$version = "1.9.00";
 $author = "Ross Parker";
 $url = "http://rossparker.org";
 
