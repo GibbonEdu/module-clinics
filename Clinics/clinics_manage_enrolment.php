@@ -17,8 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-use Gibbon\Tables\DataTable;
+use Gibbon\Http\Url;
 use Gibbon\Services\Format;
+use Gibbon\Tables\DataTable;
 use Gibbon\Module\Clinics\Domain\ClinicsGateway;
 use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
@@ -35,9 +36,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         ->add(__m('Manage Enrolment'));
 
     if ($clinicsBlockID != '') {
-        echo "<div class='linkTop'>";
-        echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/Clinics/clinics_manage.php&gibbonSchoolYearID=".$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."'>".('Back to Search Results')."</a>";
-        echo "</div>";
+        $params = [
+            "gibbonSchoolYearID" => $gibbonSchoolYearID,
+            "clinicsBlockID" => $clinicsBlockID
+        ];
+        $page->navigator->addSearchResultsAction(Url::fromModuleRoute('Clinics', 'clinics_manage.php')->withQueryParams($params));
     }
 
     $clinicsGateway = $container->get(ClinicsGateway::class);

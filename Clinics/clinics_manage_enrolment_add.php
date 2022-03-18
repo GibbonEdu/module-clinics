@@ -35,12 +35,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         ->add(__m('Manage Enrolment'), 'clinics_manage_enrolment.php', ['clinicsClinicID' => $clinicsClinicID, 'gibbonSchoolYearID' => $gibbonSchoolYearID])
         ->add(__m('Enrol'));
 
-    if (!empty($clinicsBlockID)) {
-        echo "<div class='linkTop'>";
-        echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinics_manage_enrolment.php&gibbonSchoolYearID='.$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."&clinicsClinicID=$clinicsClinicID'>".__('Back').'</a>';
-        echo '</div>';
-    }
-
     if (empty($clinicsClinicID)) {
         $page->addError(__('You have not specified one or more required parameters.'));
         return;
@@ -53,6 +47,17 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
+
+    if (!empty($clinicsBlockID)) {
+        $params = [
+            "gibbonSchoolYearID" => $gibbonSchoolYearID,
+            "clinicsBlockID" => $clinicsBlockID,
+            "clinicsClinicID" => $clinicsClinicID
+        ];
+        $form->addHeaderAction('back', __('Back'))
+            ->setURL('/modules/Clinics/clinics_manage_enrolment.php')
+            ->addParams($params);
+    }
 
     $row = $form->addRow();
         $row->addLabel('gibbonPersonID', __('Person'))->description(__('Must be unique.'));

@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Http\Url;
 use Gibbon\Forms\Form;
 use Gibbon\Forms\DatabaseFormFactory;
 use Gibbon\Domain\School\SchoolYearGateway;
@@ -39,9 +40,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
         ->add(__m('Edit Clinic'));
 
     if ($clinicsBlockID != '') {
-        echo "<div class='linkTop'>";
-        echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/Clinics/clinics_manage.php&gibbonSchoolYearID=".$gibbonSchoolYearID."&clinicsBlockID=".$clinicsBlockID."'>".('Back to Search Results')."</a>";
-        echo "</div>";
+        $params = [
+            "gibbonSchoolYearID" => $gibbonSchoolYearID,
+            "clinicsBlockID" => $clinicsBlockID
+        ];
+        $page->navigator->addSearchResultsAction(Url::fromModuleRoute('Clinics', 'clinics_manage.php')->withQueryParams($params));
     }
 
     if (empty($clinicsClinicID)) {
