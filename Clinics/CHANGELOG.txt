@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.10.00
+-------
+Transferred ownership from Ross Parker to Gibbon Foundation
+
 v1.9.01
 -------
 Refactoring of linkTop divs
