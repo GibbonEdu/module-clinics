@@ -25,7 +25,7 @@ $description = "Run academic clinics, with some students assigned to clinics bas
 $entryURL = "clinics.php";
 $type = "Additional";
 $category = "Learn";
-$version = "1.10.00";
+$version = "1.10.01";
 $author = "Gibbon Foundation";
 $url = "https://gibbonedu.org";
 
