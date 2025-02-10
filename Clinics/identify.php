@@ -48,7 +48,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
 
         $form = Form::create('filter', $gibbon->session->get('absoluteURL').'/index.php', 'get');
         $form->setFactory(DatabaseFormFactory::create($pdo));
-        $form->setClass('noIntBorder fullWidth');
+        $form->setClass('noIntBorder w-full');
 
         $form->addHiddenValue('q', '/modules/'.$gibbon->session->get('module').'/identify.php');
 
@@ -123,14 +123,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
                 echo __('You do not have access to this action.');
                 echo '</div>';
             } else {
-                $form = Form::create('identify', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/identifyProcess.php');
+                $form = Form::createBlank('identify', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/identifyProcess.php');
                 $form->setTitle('Priorities');
-                $form->setClass('w-full blank');
                 $form->addHiddenValue('address', $gibbon->session->get('address'));
                 $form->addHiddenValue('gibbonYearGroupID', $gibbonYearGroupID);
                 $form->addHiddenValue('gibbonDepartmentID', $gibbonDepartmentID);
 
-                $table = $form->addRow()->addTable()->setClass('mini fullWidth');
+                $table = $form->addRow()->addTable()->setClass('mini w-full');
 
                 //Fetch students
                 try {

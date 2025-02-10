@@ -50,7 +50,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
         $form = Form::create('filter', $gibbon->session->get('absoluteURL').'/index.php', 'get');
         $form->setFactory(DatabaseFormFactory::create($pdo));
-        $form->setClass('noIntBorder fullWidth');
+        $form->setClass('noIntBorder w-full');
 
         $form->addHiddenValue('q', '/modules/'.$gibbon->session->get('module').'/assign.php');
 
@@ -75,13 +75,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
             }
             $departmentsArray = ($resultDepartments->rowCount() > 0)? $resultDepartments->fetchAll() : array();
 
-            $form = Form::create('assign', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/assignProcess.php');
+            $form = Form::createBlank('assign', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/assignProcess.php');
             $form->setTitle('Priorities');
-            $form->setClass('w-full blank');
             $form->addHiddenValue('address', $gibbon->session->get('address'));
             $form->addHiddenValue('gibbonYearGroupID', $gibbonYearGroupID);
 
-            $table = $form->addRow()->addTable()->setClass('mini fullWidth');
+            $table = $form->addRow()->addTable()->setClass('mini w-full');
 
             //Fetch students
             try {
