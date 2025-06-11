@@ -24,9 +24,9 @@ use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
 
 require_once '../../gibbon.php';
 
-$gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+$gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinicsBlocks_manage_add.php&gibbonSchoolYearID='.$gibbonSchoolYearID;
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinicsBlocks_manage_add.php&gibbonSchoolYearID='.$gibbonSchoolYearID;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_manage_add.php') == false) {
     $URL .= '&return=error0';

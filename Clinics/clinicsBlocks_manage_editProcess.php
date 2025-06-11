@@ -24,10 +24,10 @@ use Gibbon\Module\Clinics\Domain\ClinicsBlocksGateway;
 
 require_once '../../gibbon.php';
 
-$gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+$gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
 $clinicsBlockID = $_POST['clinicsBlockID'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinicsBlocks_manage_edit.php&gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID;
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/Clinics/clinicsBlocks_manage_edit.php&gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_manage_edit.php') == false) {
     $URL .= '&return=error0';

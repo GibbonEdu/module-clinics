@@ -45,6 +45,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
         return;
     }
 
-    $form = DeleteForm::createForm($gibbon->session->get('absoluteURL').'/modules/Clinics/enrolmentByStudent_student_deleteProcess.php?gibbonPersonID='.$gibbonPersonID.'&search='.$search);
+    $form = DeleteForm::createForm($session->get('absoluteURL').'/modules/Clinics/enrolmentByStudent_student_deleteProcess.php?gibbonPersonID='.$gibbonPersonID.'&search='.$search);
     echo $form->getOutput();
 }

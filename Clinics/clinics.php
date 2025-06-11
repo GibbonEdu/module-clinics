@@ -30,7 +30,7 @@ if (isModuleAccessible($guid, $connection2) == false) {
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $session->get('gibbonSchoolYearID');
 
     $page->breadcrumbs
         ->add(__m('View Clinics'));
@@ -51,7 +51,7 @@ if (isModuleAccessible($guid, $connection2) == false) {
         $row->addSelect('clinicsBlockID')->fromQuery($pdo, $sql, $data)->placeholder()->selected($clinicsBlockID);
 
     $row = $form->addRow();
-        $row->addSearchSubmit($gibbon->session, __('Clear Search'));
+        $row->addSearchSubmit($session, __('Clear Search'));
 
     echo $form->getOutput();
 

@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
     $schoolYearGateway = $container->get(SchoolYearGateway::class);
     $schoolYear = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
@@ -61,10 +61,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_edi
         return;
     }
 
-    $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinics_manage_editProcess.php?clinicsBlockID='.$clinicsBlockID);
+    $form = Form::create('clinic', $session->get('absoluteURL').'/modules/'.$session->get('module').'/clinics_manage_editProcess.php?clinicsBlockID='.$clinicsBlockID);
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $gibbon->session->get('address'));
+    $form->addHiddenValue('address', $session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
 

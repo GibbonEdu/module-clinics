@@ -28,11 +28,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $session->get('gibbonSchoolYearID');
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 
     try {
-        $dataStudent = array('gibbonSchoolYearID' => $gibbonSchoolYearID, 'gibbonPersonID' => $gibbon->session->get('gibbonPersonID'));
+        $dataStudent = array('gibbonSchoolYearID' => $gibbonSchoolYearID, 'gibbonPersonID' => $session->get('gibbonPersonID'));
         $sqlStudent = 'SELECT gibbonYearGroupID FROM gibbonStudentEnrolment WHERE gibbonSchoolYearID=:gibbonSchoolYearID AND gibbonPersonID=:gibbonPersonID';
         $resultStudent = $connection2->prepare($sqlStudent);
         $resultStudent->execute($dataStudent);
@@ -64,16 +64,16 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
                 ->fromPOST()
                 ->pageSize(0);
 
-            $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID, true);
+            $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $session->get('gibbonSchoolYearID'), $gibbonYearGroupID, true);
 
             foreach ($clinics AS $clinic) {
                 $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] = $clinic['name'] ;
             }
 
             //Form
-            $form = Form::create('clinic', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/enrol_addProcess.php');
+            $form = Form::create('clinic', $session->get('absoluteURL').'/modules/'.$session->get('module').'/enrol_addProcess.php');
 
-            $form->addHiddenValue('address', $gibbon->session->get('address'));
+            $form->addHiddenValue('address', $session->get('address'));
             $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
 
             $row = $form->addRow();

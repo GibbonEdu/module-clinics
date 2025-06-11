@@ -29,7 +29,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 } else {
     // Proceed!
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 
     $page->breadcrumbs
@@ -42,10 +42,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         return;
     }
 
-    $form = Form::create('clinicsManage', $gibbon->session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_addProcess.php');
+    $form = Form::create('clinicsManage', $session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_addProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $gibbon->session->get('address'));
+    $form->addHiddenValue('address', $session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);

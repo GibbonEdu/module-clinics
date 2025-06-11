@@ -27,7 +27,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_del
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
 
@@ -43,6 +43,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_del
         return;
     }
 
-    $form = DeleteForm::createForm($gibbon->session->get('absoluteURL').'/modules/Clinics/clinics_manage_deleteProcess.php?gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID);
+    $form = DeleteForm::createForm($session->get('absoluteURL').'/modules/Clinics/clinics_manage_deleteProcess.php?gibbonSchoolYearID='.$gibbonSchoolYearID.'&clinicsBlockID='.$clinicsBlockID);
     echo $form->getOutput();
 }
