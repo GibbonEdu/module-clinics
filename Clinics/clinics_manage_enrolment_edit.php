@@ -29,7 +29,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
     $clinicsBlockID = $_GET['clinicsBlockID'] ?? '';
     $clinicsClinicID = $_GET['clinicsClinicID'] ?? '';
     $clinicsClinicStudentID = $_GET['clinicsClinicStudentID'] ?? '';
@@ -51,10 +51,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
         return;
     }
 
-    $form = Form::create('clinicsManage', $gibbon->session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_editProcess.php');
+    $form = Form::create('clinicsManage', $session->get('absoluteURL').'/modules/Clinics/clinics_manage_enrolment_editProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $gibbon->session->get('address'));
+    $form->addHiddenValue('address', $session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
     $form->addHiddenValue('clinicsClinicID', $clinicsClinicID);
@@ -73,7 +73,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage_enr
 
     $row = $form->addRow();
         $row->addLabel('gibbonPersonID', __('Person'));
-        $row->addSelectStudent('gibbonPersonID', $gibbon->session->get('gibbonSchoolYearID'))->readonly();
+        $row->addSelectStudent('gibbonPersonID', $session->get('gibbonSchoolYearID'))->readonly();
 
     $statuses = array(
         'Enroled' => __m('Enroled'),

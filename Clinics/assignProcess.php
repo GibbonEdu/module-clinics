@@ -27,7 +27,7 @@ include '../../gibbon.php';
 
 $gibbonYearGroupID = $_POST['gibbonYearGroupID'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/assign.php&gibbonYearGroupID='.$gibbonYearGroupID;
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/assign.php&gibbonYearGroupID='.$gibbonYearGroupID;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == false) {
     $URL .= '&return=error0';
@@ -42,7 +42,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
         ->sortBy(['clinicsBlock.sequenceNumber'])
         ->fromPOST();
 
-    $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'));
+    $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $session->get('gibbonSchoolYearID'));
 
     foreach ($blocks as $block) {
         $clinics = $_POST['clinics'.$block['clinicsBlockID']] ?? '';

@@ -25,7 +25,7 @@ use Gibbon\Module\Clinics\Domain\ClinicsStudentsGateway;
 
 require_once '../../gibbon.php';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/enrol.php';
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/Clinics/enrol.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') == false) {
     $URL .= '&return=error0';
@@ -45,7 +45,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
 
         $data = [
             'clinicsBlockID'        => $_POST['clinicsBlockID'] ?? '',
-            'gibbonPersonID'        => $gibbon->session->get('gibbonPersonID') ?? '',
+            'gibbonPersonID'        => $session->get('gibbonPersonID') ?? '',
             'clinicsClinicID'       => $_POST['clinicsClinicID'] ?? '',
             'status'                => 'Enroled'
         ];
@@ -92,7 +92,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol_add.php') ==
                 $enroled = false;
                 //Check for existing enrolment in this clinic
                 foreach ($enrolments AS $enrolment) {
-                    if ($enrolment['gibbonPersonID'] == $gibbon->session->get('gibbonPersonID')) {
+                    if ($enrolment['gibbonPersonID'] == $session->get('gibbonPersonID')) {
                         $enroled = true;
                     }
                 }

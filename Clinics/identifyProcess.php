@@ -24,7 +24,7 @@ include '../../gibbon.php';
 $gibbonYearGroupID = $_POST['gibbonYearGroupID'] ?? '';
 $gibbonDepartmentID = $_POST['gibbonDepartmentID'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/identify.php&gibbonYearGroupID='.$gibbonYearGroupID.'&gibbonDepartmentID='.$gibbonDepartmentID;
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/identify.php&gibbonYearGroupID='.$gibbonYearGroupID.'&gibbonDepartmentID='.$gibbonDepartmentID;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == false) {
     $URL .= '&return=error0';
@@ -41,7 +41,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
         $departmentalAccess = true;
         if ($highestAction != "Identify Priorities_all") {
             try {
-                $dataDepartments = array('gibbonPersonID' => $gibbon->session->get('gibbonPersonID'), 'gibbonDepartmentID' => $gibbonDepartmentID);
+                $dataDepartments = array('gibbonPersonID' => $session->get('gibbonPersonID'), 'gibbonDepartmentID' => $gibbonDepartmentID);
                 $sqlDepartments = "SELECT gibbonDepartment.gibbonDepartmentID as value, name, nameShort
                         FROM gibbonDepartment
                             JOIN gibbonDepartmentStaff ON (gibbonDepartmentStaff.gibbonDepartmentID=gibbonDepartment.gibbonDepartmentID)
@@ -80,7 +80,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
                 foreach ($priorities as $priority) {
                     $innerFail = false ;
                     try {
-                        $dataPriority = array('gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'), 'gibbonDepartmentID' => $gibbonDepartmentID, 'gibbonPersonID' => $gibbonPersonIDs[$count]);
+                        $dataPriority = array('gibbonSchoolYearID' => $session->get('gibbonSchoolYearID'), 'gibbonDepartmentID' => $gibbonDepartmentID, 'gibbonPersonID' => $gibbonPersonIDs[$count]);
                         $sqlPriority = 'SELECT *
                             FROM clinicsPriority
                             WHERE gibbonSchoolYearID=:gibbonSchoolYearID
@@ -106,7 +106,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/identify.php') == 
                         }
                         else if ($resultPriority->rowCount() == 0) { //Does not exist, so insert
                             try {
-                                $data = array('priority' => $priority, 'gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'), 'gibbonDepartmentID' => $gibbonDepartmentID, 'gibbonPersonID' => $gibbonPersonIDs[$count]);
+                                $data = array('priority' => $priority, 'gibbonSchoolYearID' => $session->get('gibbonSchoolYearID'), 'gibbonDepartmentID' => $gibbonDepartmentID, 'gibbonPersonID' => $gibbonPersonIDs[$count]);
                                 $sql = 'INSERT INTO  clinicsPriority SET priority=:priority, gibbonSchoolYearID=:gibbonSchoolYearID, gibbonDepartmentID=:gibbonDepartmentID, gibbonPersonID=:gibbonPersonID';
                                 $result = $connection2->prepare($sql);
                                 $result->execute($data);

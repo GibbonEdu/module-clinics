@@ -32,7 +32,7 @@ $data = [
 ];
 $search = $_POST['search'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL')."/index.php?q=/modules/Clinics/enrolmentByStudent_student.php&gibbonPersonID=".$data['gibbonPersonID']."&search=".$search;
+$URL = $session->get('absoluteURL')."/index.php?q=/modules/Clinics/enrolmentByStudent_student.php&gibbonPersonID=".$data['gibbonPersonID']."&search=".$search;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent_student_add.php') == false) {
     $URL .= '&return=error0';
@@ -85,7 +85,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent
             $enroled = false;
             //Check for existing enrolment in this clinic
             foreach ($enrolments AS $enrolment) {
-                if ($enrolment['gibbonPersonID'] == $gibbon->session->get('gibbonPersonID')) {
+                if ($enrolment['gibbonPersonID'] == $session->get('gibbonPersonID')) {
                     $enroled = true;
                 }
             }

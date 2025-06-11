@@ -28,7 +28,7 @@ $search = $_GET['search'] ?? '';
 $clinicsClinicID = $_POST['clinicsClinicID'] ?? '';
 $clinicsClinicStudentID = $_POST['clinicsClinicStudentID'] ?? '';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/enrolmentByStudent_student.php&gibbonPersonID='.$gibbonPersonID.'&search='.$search;
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/Clinics/enrolmentByStudent_student.php&gibbonPersonID='.$gibbonPersonID.'&search='.$search;
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrolmentByStudent_student_delete.php') == false) {
     $URL .= '&return=error0';

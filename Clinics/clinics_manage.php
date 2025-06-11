@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
 
     $page->breadcrumbs
         ->add(__m('Manage Clinics'));
@@ -56,7 +56,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
         $row->addSelect('clinicsBlockID')->fromQuery($pdo, $sql, $data)->placeholder()->selected($clinicsBlockID);
 
     $row = $form->addRow();
-        $row->addSearchSubmit($gibbon->session, __('Clear Search'));
+        $row->addSearchSubmit($session, __('Clear Search'));
 
     echo $form->getOutput();
 
@@ -103,7 +103,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinics_manage.php
         ->addParam('gibbonSchoolYearID', $gibbonSchoolYearID)
         ->addParam('clinicsClinicID')
         ->addParam('clinicsBlockID', $clinicsBlockID)
-        ->format(function ($clinic, $actions) use ($gibbon) {
+        ->format(function ($clinic, $actions) {
             $actions->addAction('edit', __('Edit'))
                     ->setURL('/modules/Clinics/clinics_manage_edit.php');
 
