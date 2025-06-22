@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == fal
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $session->get('gibbonSchoolYearID');
 
     $page->breadcrumbs
         ->add(__m('Enrol'));
@@ -50,7 +50,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == fal
             ->sortBy(['clinicsBlock.sequenceNumber'])
             ->fromPOST();
 
-        $blocks = $clinicsBlocksGateway->queryBlockEnrolmentByStudent($criteria, $gibbon->session->get('gibbonPersonID'), $gibbon->session->get('gibbonSchoolYearID'));
+        $blocks = $clinicsBlocksGateway->queryBlockEnrolmentByStudent($criteria, $session->get('gibbonPersonID'), $session->get('gibbonSchoolYearID'));
 
         // Data Table
         $gridRenderer = new GridView($container->get('twig'));
@@ -76,7 +76,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/enrol.php') == fal
                     return $block['clinicName'];
                 }
                 else {
-                    return "<a href='".$gibbon->session->get('absoluteURL')."/index.php?q=/modules/Clinics/enrol_add.php&clinicsBlockID=".$block['clinicsBlockID']."'><img src='./themes/".$gibbon->session->get('gibbonThemeName')."/img/page_new.png'/></a>";
+                    return "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/Clinics/enrol_add.php&clinicsBlockID=".$block['clinicsBlockID']."'><img src='./themes/".$session->get('gibbonThemeName')."/img/page_new.png'/></a>";
                 }
             });
 

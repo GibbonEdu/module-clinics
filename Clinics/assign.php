@@ -48,18 +48,18 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
 
         $gibbonYearGroupID = $_GET['gibbonYearGroupID'] ?? '';
 
-        $form = Form::create('filter', $gibbon->session->get('absoluteURL').'/index.php', 'get');
+        $form = Form::create('filter', $session->get('absoluteURL').'/index.php', 'get');
         $form->setFactory(DatabaseFormFactory::create($pdo));
         $form->setClass('noIntBorder w-full');
 
-        $form->addHiddenValue('q', '/modules/'.$gibbon->session->get('module').'/assign.php');
+        $form->addHiddenValue('q', '/modules/'.$session->get('module').'/assign.php');
 
         $row = $form->addRow();
             $row->addLabel('gibbonYearGroupID', __('Year Group'));
             $row->addSelectYearGroup('gibbonYearGroupID')->selected($gibbonYearGroupID)->placeholder()->required();
 
         $row = $form->addRow();
-            $row->addSearchSubmit($gibbon->session, __('Clear Filters'));
+            $row->addSearchSubmit($session, __('Clear Filters'));
 
         echo $form->getOutput();
 
@@ -75,16 +75,16 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
             }
             $departmentsArray = ($resultDepartments->rowCount() > 0)? $resultDepartments->fetchAll() : array();
 
-            $form = Form::createBlank('assign', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/assignProcess.php');
+            $form = Form::createBlank('assign', $session->get('absoluteURL').'/modules/'.$session->get('module').'/assignProcess.php');
             $form->setTitle('Priorities');
-            $form->addHiddenValue('address', $gibbon->session->get('address'));
+            $form->addHiddenValue('address', $session->get('address'));
             $form->addHiddenValue('gibbonYearGroupID', $gibbonYearGroupID);
 
             $table = $form->addRow()->addTable()->setClass('mini w-full');
 
             //Fetch students
             try {
-                $dataStudents = array('gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'), 'gibbonYearGroupID' => $gibbonYearGroupID, 'today' => date('Y-m-d'));
+                $dataStudents = array('gibbonSchoolYearID' => $session->get('gibbonSchoolYearID'), 'gibbonYearGroupID' => $gibbonYearGroupID, 'today' => date('Y-m-d'));
                 $sqlStudents = "SELECT gibbonPerson.gibbonPersonID, gibbonStudentEnrolmentID, gibbonStudentEnrolment.gibbonSchoolYearID, gibbonPerson.title, gibbonPerson.preferredName, gibbonPerson.surname
                     FROM gibbonPerson
                         INNER JOIN gibbonStudentEnrolment ON (gibbonPerson.gibbonPersonID=gibbonStudentEnrolment.gibbonPersonID)
@@ -111,7 +111,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                 ->fromPOST()
                 ->pageSize(0);
 
-            $studentEnrolments = $clinicsStudentsGateway->queryStudentEnrolmentBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
+            $studentEnrolments = $clinicsStudentsGateway->queryStudentEnrolmentBySchoolYear($criteria, $session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 
             foreach ($studentEnrolments as $studentEnrolment) {
                 $studentEnrolmentsArray[$studentEnrolment['gibbonPersonID']][$studentEnrolment['clinicsBlockID']]['id'] = $studentEnrolment['clinicsClinicID'];
@@ -122,7 +122,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
             //Fetch priorities
             $priorities = array() ;
             try {
-                $dataPriorities = array('gibbonYearGroupID' => $gibbonYearGroupID, 'gibbonSchoolYearID' => $gibbon->session->get('gibbonSchoolYearID'));
+                $dataPriorities = array('gibbonYearGroupID' => $gibbonYearGroupID, 'gibbonSchoolYearID' => $session->get('gibbonSchoolYearID'));
                 $sqlPriorities = 'SELECT *
                     FROM clinicsPriority
                         INNER JOIN gibbonStudentEnrolment ON (gibbonStudentEnrolment.gibbonPersonID=clinicsPriority.gibbonPersonID)
@@ -146,7 +146,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                 ->fromPOST()
                 ->pageSize(0);
 
-            $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'));
+            $blocks = $clinicsBlocksGateway->queryBlocksBySchoolYear($criteria, $session->get('gibbonSchoolYearID'));
 
             //Assemble clinic select array
             $clinicsArray = array();
@@ -158,7 +158,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/assign.php') == fa
                 ->fromPOST()
                 ->pageSize(0);
 
-            $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $gibbon->session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
+            $clinics = $clinicsGateway->queryClinicsBySchoolYear($criteria, $session->get('gibbonSchoolYearID'), $gibbonYearGroupID);
 
             foreach ($clinics AS $clinic) {
                 $clinicsArray[$clinic['clinicsBlockID']][$clinic['clinicsClinicID']] = $clinic['name'] ;

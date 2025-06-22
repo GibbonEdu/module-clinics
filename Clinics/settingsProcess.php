@@ -23,7 +23,7 @@ use Gibbon\Domain\System\SettingGateway;
 
 require_once '../../gibbon.php';
 
-$URL = $gibbon->session->get('absoluteURL').'/index.php?q=/modules/Clinics/settings.php';
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/Clinics/settings.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Clinics/settings.php') == false) {
     $URL .= '&return=error0';

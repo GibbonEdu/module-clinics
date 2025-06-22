@@ -29,7 +29,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
     $page->addError(__('You do not have access to this action.'));
 } else {
     // Proceed!
-    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $gibbon->session->get('gibbonSchoolYearID');
+    $gibbonSchoolYearID = $_REQUEST['gibbonSchoolYearID'] ?? $session->get('gibbonSchoolYearID');
     $schoolYearGateway = $container->get(SchoolYearGateway::class);
     $schoolYear = $schoolYearGateway->getSchoolYearByID($gibbonSchoolYearID);
     $yearName = $schoolYear['name'];
@@ -51,10 +51,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         return;
     }
 
-    $form = Form::create('block', $gibbon->session->get('absoluteURL').'/modules/'.$gibbon->session->get('module').'/clinicsBlocks_manage_editProcess.php');
+    $form = Form::create('block', $session->get('absoluteURL').'/modules/'.$session->get('module').'/clinicsBlocks_manage_editProcess.php');
     $form->setFactory(DatabaseFormFactory::create($pdo));
 
-    $form->addHiddenValue('address', $gibbon->session->get('address'));
+    $form->addHiddenValue('address', $session->get('address'));
     $form->addHiddenValue('gibbonSchoolYearID', $gibbonSchoolYearID);
     $form->addHiddenValue('clinicsBlockID', $clinicsBlockID);
 
@@ -71,11 +71,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Clinics/clinicsBlocks_mana
         $row->addSequenceNumber('sequenceNumber', 'clinicsBlock', $values['sequenceNumber'])->required()->maxLength(3);
 
     $row = $form->addRow();
-        $row->addLabel('firstDay', __('First Day'))->description($gibbon->session->get("i18n")["dateFormat"])->prepend(__('Format:'));
+        $row->addLabel('firstDay', __('First Day'))->description($session->get("i18n")["dateFormat"])->prepend(__('Format:'));
         $row->addDate('firstDay')->required();
 
     $row = $form->addRow();
-        $row->addLabel('lastDay', __('Last Day'))->description($gibbon->session->get("i18n")["dateFormat"])->prepend(__('Format:'));
+        $row->addLabel('lastDay', __('Last Day'))->description($session->get("i18n")["dateFormat"])->prepend(__('Format:'));
         $row->addDate('lastDay')->required();
 
     $row = $form->addRow();

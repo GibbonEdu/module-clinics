@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v1.11.01
+-------
+Replaced deprecated $gibbon->session calls with $session
+
 v1.11.00
 -------
 Gibbon v28 Compatibility
